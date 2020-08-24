@@ -1,0 +1,6 @@
+#ignorar resultados de compilacion
+build/
+#ignorar vscode
+.vscode
+#ignorar comandos de compilacion (para clangd entre otros)
+compile_commands.json
