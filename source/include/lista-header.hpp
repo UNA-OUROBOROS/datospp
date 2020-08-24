@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include <tuple>
 
-// este codigo tambien esta disponible en el siguiente gist
+
 
 class lista {
   private:
