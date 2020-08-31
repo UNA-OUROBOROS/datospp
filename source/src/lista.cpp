@@ -80,6 +80,7 @@ lista::nodo *lista::getNodo(size_t pos) {
 		if (i == pos) {
 			return n;
 		}
+		n->getSiguiente();
 	}
 	return nullptr;
 }
