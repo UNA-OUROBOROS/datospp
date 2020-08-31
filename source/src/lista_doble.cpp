@@ -8,7 +8,7 @@ void listaDoble::insertar(int n, size_t pos) {
 		insertarInicio(n);
 	} else if (pos <= len) {
 		nodo *anterior = getNodo(pos - 1);
-		nodo *nuevo = new Nodo(n, anterior, anterior->getSiguiente());
+		nodo *nuevo = new nodo(n, anterior, anterior->getSiguiente());
 		anterior->getSiguiente()->setSiguiente(nuevo);
 		anterior->setSiguiente(nuevo);
 		len++;

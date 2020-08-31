@@ -9,7 +9,7 @@ void lista::insertarInicio(int n) {
 	len++;
 }
 void lista::insertarFinal(int n) {
-	if (n == 0) {
+	if (len == 0) {
 		insertarInicio(n);
 	} else {
 		getNodo(len - 1)->setSiguiente(new nodo(n));
@@ -80,7 +80,7 @@ lista::nodo *lista::getNodo(size_t pos) {
 		if (i == pos) {
 			return n;
 		}
-		n->getSiguiente();
+		n = n->getSiguiente();
 	}
 	return nullptr;
 }
