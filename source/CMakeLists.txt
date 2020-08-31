@@ -12,14 +12,15 @@ set(src_include
 
 set(src
     ${src_include}
-    src/source.cpp
-    src/lista.cpp
+    #src/source.cpp
+    #src/lista.cpp
     src/lista_doble.cpp
 )
 
 
-add_executable(foro ${src})
-target_include_directories(foro PRIVATE include)
+#add_executable(foro ${src})
+add_executable(problemas-tda ${src} ejercicios/problemas-tda/problemas-tda.cpp)
+target_include_directories(problemas-tda PRIVATE include)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
