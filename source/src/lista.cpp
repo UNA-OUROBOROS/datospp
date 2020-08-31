@@ -86,7 +86,7 @@ lista::nodo *lista::getNodo(size_t pos) {
 }
 
 lista::~lista() {
-	while (len != 0) {
+	while (len) {
 		eliminarInicio();
 	}
 }
