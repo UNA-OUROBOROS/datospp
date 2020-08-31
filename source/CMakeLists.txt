@@ -7,12 +7,14 @@ enable_testing()
 
 set(src_include
     include/lista.hpp
+    include/lista_doble.hpp
 )
 
 set(src
     ${src_include}
     src/source.cpp
     src/lista.cpp
+    src/lista_doble.cpp
 )
 
 
