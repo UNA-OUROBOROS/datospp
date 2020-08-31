@@ -2,7 +2,7 @@
 #include <cstddef>
 
 class lista {
-  private:
+  protected:
 	class nodo {
 		int valor;
 		nodo *siguiente = nullptr;
@@ -14,6 +14,8 @@ class lista {
 		void setSiguiente(nodo *n) { siguiente = n; }
 		nodo *getSiguiente() { return siguiente; }
 	};
+
+  private:
 	nodo *inicio = nullptr;
 	size_t len = 0;
 
