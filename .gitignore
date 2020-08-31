@@ -2,5 +2,7 @@
 build/
 #ignorar vscode
 .vscode
+#ignorar archivos de clangd
+.clangd
 #ignorar comandos de compilacion (para clangd entre otros)
 compile_commands.json
