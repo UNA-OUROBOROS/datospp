@@ -13,8 +13,6 @@ set(src_include
 set(src
     ${src_include}
     #src/source.cpp
-    #src/lista.cpp
-    src/lista_doble.cpp
 )
 
 
