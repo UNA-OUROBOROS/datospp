@@ -1,8 +1,11 @@
 #ignorar resultados de compilacion
 build/
+out/
 #ignorar vscode
-.vscode
+.vscode/
+#ignorar visual studio
+.vs/
 #ignorar archivos de clangd
-.clangd
+.clangd/
 #ignorar comandos de compilacion (para clangd entre otros)
 compile_commands.json
