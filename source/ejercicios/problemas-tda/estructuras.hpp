@@ -51,9 +51,10 @@ template <typename T> class cola : public lista<T> {
 };
 
 class dummy {
-	dummy *siguiente = nullptr;
+	
 	std::string nombre;
 	std::string informacion;
+	dummy *siguiente = nullptr;
 
   public:
 	dummy(std::string nombre, std::string informacion, dummy *sig = nullptr)
