@@ -32,7 +32,7 @@ template <typename T> class listaDoble {
 			insertarInicio(n);
 		} else if (pos <= len) {
 			nodo<T> *anterior = getNodo(pos - 1);
-			nodo<T> *nuevo = new nodo(n, anterior, anterior->getSiguiente());
+			nodo<T> *nuevo = new nodo<T>(n, anterior, anterior->getSiguiente());
 			anterior->getSiguiente()->setSiguiente(nuevo);
 			anterior->setSiguiente(nuevo);
 			len++;
