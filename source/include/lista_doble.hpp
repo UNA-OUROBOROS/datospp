@@ -6,18 +6,18 @@
 template <typename T> class listaDoble {
   private:
 	template <typename A> class nodo {
-		A valor;
+		A &valor;
 		nodo *siguiente = nullptr;
 		nodo *anterior = nullptr;
 
 	  public:
-		nodo(A valor, nodo *siguiente = nullptr, nodo *anterior = nullptr)
+		nodo(A &valor, nodo *siguiente = nullptr, nodo *anterior = nullptr)
 		    : valor(valor), siguiente(siguiente), anterior(anterior) {}
-		A getValor() { return valor; }
+		A &getValor() const { return valor; }
 		void setSiguiente(nodo *n) { siguiente = n; }
 		void setAnterior(nodo *n) { anterior = n; }
-		nodo *getSiguiente() { return siguiente; }
-		nodo *getAnterior() { return anterior; }
+		nodo *getSiguiente() const { return siguiente; }
+		nodo *getAnterior() const { return anterior; }
 	};
 	nodo<T> *inicio = nullptr;
 	nodo<T> *ultimo = nullptr;
@@ -91,15 +91,15 @@ template <typename T> class listaDoble {
 		}
 		return false;
 	}
-	T getValor(size_t pos) {
+	T &getValor(size_t pos) const {
 		nodo<T> *n = getNodo(pos);
 		if (n) {
 			return n->getValor();
 		}
 		throw std::out_of_range("posicion fuera de los limites");
 	}
-	size_t size() { return len; }
-	bool empty() { return len; }
+	size_t size() const { return len; }
+	bool empty() const { return len; }
 	void clear() {
 		while (len) {
 			eliminarInicio();
@@ -107,7 +107,7 @@ template <typename T> class listaDoble {
 	}
 
   private:
-	nodo<T> *getNodo(size_t pos) {
+	nodo<T> *getNodo(size_t pos) const {
 		// c++ 17, pre c++17 puede declarar uno de los 2 afuera
 		bool reversa = pos > len / 2;
 		for (auto [n, i] = std::tuple{inicio, reversa ? len - 1 : 0}; n;

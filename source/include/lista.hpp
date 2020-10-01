@@ -10,11 +10,11 @@ template <typename T> class lista {
 		nodo *siguiente = nullptr;
 
 	  public:
-		nodo(A valor, nodo *siguiente = nullptr)
+		nodo(A &valor, nodo *siguiente = nullptr)
 		    : valor(valor), siguiente(siguiente) {}
-		A getValor() { return valor; }
-		void setSiguiente(nodo *n) { siguiente = n; }
-		nodo *getSiguiente() { return siguiente; }
+		A &getValor() const { return valor; }
+		void setSiguiente(nodo *n) const { siguiente = n; }
+		nodo *getSiguiente() const { return siguiente; }
 	};
 	nodo<T> *inicio = nullptr;
 	size_t len = 0;
@@ -84,15 +84,15 @@ template <typename T> class lista {
 		return false;
 	}
 
-	T getValor(size_t pos) {
+	T &getValor(size_t pos) const {
 		nodo<T> *n = getNodo(pos);
 		if (n) {
 			return n->getValor();
 		}
 		throw std::out_of_range("posicion fuera de los limites");
 	}
-	size_t size() { return len; }
-	bool empty() { return len; }
+	size_t size() const { return len; }
+	bool empty() const { return len; }
 	void clear() {
 		while (len) {
 			eliminarInicio();
@@ -100,7 +100,7 @@ template <typename T> class lista {
 	}
 
   private:
-	nodo<T> *getNodo(size_t pos) {
+	nodo<T> *getNodo(size_t pos) const {
 		// c++ 17, pre c++17 puede declarar uno de los 2 afuera
 		for (auto [n, i] = std::tuple{inicio, 0}; n;
 		     i++, n = n->getSiguiente()) {
