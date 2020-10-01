@@ -9,7 +9,7 @@ template <typename T> class colaPrioridad : public lista<T> {
 	colaPrioridad(bool menor = false) : menor(menor) {}
 	void insertar(T elem) {
 		for (size_t i = 0; i < lista<T>::size(); i++) {
-			T val = lista<T>::getValor(i);
+			T val = lista<T>::at(i);
 			// cada clase es responsable de sobrecargar su operador
 			if (menor ? elem < val : elem > val) {
 				lista<T>::insertar(elem, i);
@@ -19,7 +19,7 @@ template <typename T> class colaPrioridad : public lista<T> {
 		lista<T>::insertarFinal(elem);
 	}
 	T recuperar() {
-		T val = lista<T>::getValor(0);
+		T val = lista<T>::at(0);
 		lista<T>::eliminarInicio();
 		return val;
 	}
@@ -31,7 +31,7 @@ template <typename T> class pila : private lista<T> {
   public:
 	void insertar(T elem) { insertarInicio(elem); }
 	T recuperar() {
-		T val = lista<T>::getValor(lista<T>::size());
+		T val = lista<T>::at(lista<T>::size());
 		lista<T>::eliminarInicio();
 		return val;
 	}
@@ -43,7 +43,7 @@ template <typename T> class cola : public lista<T> {
   public:
 	void insertar(T elem) { lista<T>::insertarFinal(elem); }
 	T recuperar() {
-		T val = lista<T>::getValor(0);
+		T val = lista<T>::at(0);
 		lista<T>::eliminarInicio();
 		return val;
 	}
