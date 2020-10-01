@@ -5,8 +5,7 @@
 
 template <typename T> class lista {
   private:
-	  template <typename A>
-	class nodo {
+	template <typename A> class nodo {
 		A valor;
 		nodo *siguiente = nullptr;
 

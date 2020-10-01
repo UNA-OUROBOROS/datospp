@@ -5,14 +5,12 @@
 
 template <typename T> class listaDoble {
   private:
-	template <typename A>
-	class nodo {
+	template <typename A> class nodo {
 		A valor;
 		nodo *siguiente = nullptr;
 		nodo *anterior = nullptr;
 
 	  public:
-		
 		nodo(A valor, nodo *siguiente = nullptr, nodo *anterior = nullptr)
 		    : valor(valor), siguiente(siguiente), anterior(anterior) {}
 		A getValor() { return valor; }
