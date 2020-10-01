@@ -21,7 +21,7 @@ template <typename T> class lista {
 	size_t len = 0;
 
   public:
-	lista() {}
+	lista() = default;
 	void insertar(T n, size_t pos = 0) {
 		if (pos == 0) {
 			insertarInicio(n);
