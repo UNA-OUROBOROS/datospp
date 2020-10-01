@@ -99,7 +99,7 @@ template <typename T> class listaDoble {
 		throw std::out_of_range("posicion fuera de los limites");
 	}
 	size_t size() { return len; }
-
+	bool empty() { return len; }
 	void clear() {
 		while (len) {
 			eliminarInicio();
