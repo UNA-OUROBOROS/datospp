@@ -102,6 +102,12 @@ template <typename T> class listaDoble {
 	}
 	size_t size() { return len; }
 
+	void clear() {
+		while (len) {
+			eliminarInicio();
+		}
+	}
+
   private:
 	nodo<T> *getNodo(size_t pos) {
 		// c++ 17, pre c++17 puede declarar uno de los 2 afuera
@@ -117,9 +123,5 @@ template <typename T> class listaDoble {
 	}
 
   public:
-	~listaDoble() {
-		while (len) {
-			eliminarInicio();
-		}
-	}
+	~listaDoble() { clear(); }
 };
