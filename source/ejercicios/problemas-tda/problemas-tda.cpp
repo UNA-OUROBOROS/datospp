@@ -14,7 +14,7 @@ int main(int, char **) {
 
 		// en la lista con prioridad se requiere el acceso aleatorio tambien
 		for (size_t i = 0; i < camisas.size(); i++) {
-			cout << camisas.getValor(i) << "\n";
+			cout << camisas.at(i) << "\n";
 		}
 	}
 
