@@ -93,7 +93,7 @@ template <typename T> class listaDoble {
 	}
 	T getValor(size_t pos) {
 		nodo<T> *n = getNodo(pos);
-		if (n != nullptr) {
+		if (n) {
 			return n->getValor();
 		}
 		throw std::out_of_range("posicion fuera de los limites");
@@ -110,12 +110,12 @@ template <typename T> class listaDoble {
 	nodo<T> *getNodo(size_t pos) {
 		// c++ 17, pre c++17 puede declarar uno de los 2 afuera
 		bool reversa = pos > len / 2;
-		for (auto [n, i] = std::tuple{inicio, reversa ? len - 1 : 0};
-		     n != nullptr; reversa ? i-- : i++) {
+		for (auto [n, i] = std::tuple{inicio, reversa ? len - 1 : 0}; n;
+		     (reversa ? i-- : i++),
+		              n = (reversa ? n->getAnterior() : n->getSiguiente())) {
 			if (i == pos) {
 				return n;
 			}
-			n = reversa ? n->getAnterior() : n->getSiguiente();
 		}
 		return nullptr;
 	}

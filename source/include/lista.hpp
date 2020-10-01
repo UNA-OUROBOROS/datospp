@@ -86,7 +86,7 @@ template <typename T> class lista {
 
 	T getValor(size_t pos) {
 		nodo<T> *n = getNodo(pos);
-		if (n != nullptr) {
+		if (n) {
 			return n->getValor();
 		}
 		throw std::out_of_range("posicion fuera de los limites");
@@ -102,11 +102,11 @@ template <typename T> class lista {
   private:
 	nodo<T> *getNodo(size_t pos) {
 		// c++ 17, pre c++17 puede declarar uno de los 2 afuera
-		for (auto [n, i] = std::tuple{inicio, 0}; n != nullptr; i++) {
+		for (auto [n, i] = std::tuple{inicio, 0}; n;
+		     i++, n = n->getSiguiente()) {
 			if (i == pos) {
 				return n;
 			}
-			n = n->getSiguiente();
 		}
 		return nullptr;
 	}
