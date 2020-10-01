@@ -67,4 +67,5 @@ int main(int, char **) {
 		std::cout << "d2 dice:\n" << d2.toString() << "\n";
 		std::cout << "d3 dice:\n" << d3.toString() << "\n";
 	}
+	std::cin.ignore();
 }
