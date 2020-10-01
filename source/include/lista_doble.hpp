@@ -5,42 +5,43 @@
 
 template <typename T> class listaDoble {
   private:
-	template <typename A> class nodo {
-		A &valor;
+	class nodo {
+		T valor;
 		nodo *siguiente = nullptr;
 		nodo *anterior = nullptr;
 
 	  public:
-		nodo(A &valor, nodo *siguiente = nullptr, nodo *anterior = nullptr)
+		nodo(T &valor, nodo *siguiente = nullptr, nodo *anterior = nullptr)
 		    : valor(valor), siguiente(siguiente), anterior(anterior) {}
-		A &getValor() const { return valor; }
+		const T &getValor() const { return valor; }
+		T &getValor() { return valor; }
 		void setSiguiente(nodo *n) { siguiente = n; }
 		void setAnterior(nodo *n) { anterior = n; }
 		nodo *getSiguiente() const { return siguiente; }
 		nodo *getAnterior() const { return anterior; }
 	};
-	nodo<T> *inicio = nullptr;
-	nodo<T> *ultimo = nullptr;
+	nodo *inicio = nullptr;
+	nodo *ultimo = nullptr;
 	size_t len = 0;
 
   public:
 	listaDoble() = default;
-	void insertar(T& n, size_t pos = 0) {
+	void insertar(T &n, size_t pos = 0) {
 		if (pos == 0) {
 			insertarInicio(n);
 		} else if (pos <= len) {
-			nodo<T> *anterior = getNodo(pos - 1);
-			nodo<T> *nuevo = new nodo<T>(n, anterior, anterior->getSiguiente());
+			nodo *anterior = getNodo(pos - 1);
+			nodo *nuevo = new nodo(n, anterior, anterior->getSiguiente());
 			anterior->getSiguiente()->setSiguiente(nuevo);
 			anterior->setSiguiente(nuevo);
 			len++;
 		}
 	}
-	void insertarInicio(T& n) {
-		inicio = new nodo<T>(n, inicio);
+	void insertarInicio(T &n) {
+		inicio = new nodo(n, inicio);
 		len++;
 	}
-	void insertarFinal(T& n) {
+	void insertarFinal(T &n) {
 		if (n == 0) {
 			insertarInicio(n);
 		} else {
@@ -55,8 +56,8 @@ template <typename T> class listaDoble {
 			return eliminarInicio();
 		}
 		if (pos < len) {
-			nodo<T> *previo = getNodo(pos - 1);
-			nodo<T> *sig = previo->getSiguiente()->getSiguiente();
+			nodo *previo = getNodo(pos - 1);
+			nodo *sig = previo->getSiguiente()->getSiguiente();
 			delete previo->getSiguiente();
 			previo->setSiguiente(sig);
 			len--;
@@ -66,7 +67,7 @@ template <typename T> class listaDoble {
 	}
 	bool eliminarInicio() {
 		if (inicio) {
-			nodo<T> *siguiente = inicio->getSiguiente();
+			nodo *siguiente = inicio->getSiguiente();
 			delete inicio;
 			if (siguiente) {
 				siguiente->setAnterior(nullptr);
@@ -82,7 +83,7 @@ template <typename T> class listaDoble {
 			if (len == 1) {
 				delete inicio;
 			} else {
-				nodo<T> *n = getNodo(len - 1);
+				nodo *n = getNodo(len - 1);
 				delete n->getSiguiente();
 				n->setSiguiente(nullptr);
 			}
@@ -91,8 +92,8 @@ template <typename T> class listaDoble {
 		}
 		return false;
 	}
-	T &getValor(size_t pos) const {
-		nodo<T> *n = getNodo(pos);
+	T &at(size_t pos) const {
+		nodo *n = getNodo(pos);
 		if (n) {
 			return n->getValor();
 		}
@@ -106,8 +107,10 @@ template <typename T> class listaDoble {
 		}
 	}
 
+	T &operator[](size_t pos) const { return at(pos); }
+
   private:
-	nodo<T> *getNodo(size_t pos) const {
+	nodo *getNodo(size_t pos) const {
 		// c++ 17, pre c++17 puede declarar uno de los 2 afuera
 		bool reversa = pos > len / 2;
 		for (auto [n, i] = std::tuple{inicio, reversa ? len - 1 : 0}; n;

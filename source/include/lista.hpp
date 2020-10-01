@@ -5,41 +5,42 @@
 
 template <typename T> class lista {
   private:
-	template <typename A> class nodo {
-		A valor;
+	class nodo {
+		T valor;
 		nodo *siguiente = nullptr;
 
 	  public:
-		nodo(A &valor, nodo *siguiente = nullptr)
+		nodo(T &valor, nodo *siguiente = nullptr)
 		    : valor(valor), siguiente(siguiente) {}
-		A &getValor() const { return valor; }
-		void setSiguiente(nodo *n) const { siguiente = n; }
+		const T &getValor() const { return valor; }
+		T &getValor() { return valor; }
+		void setSiguiente(nodo *n) { siguiente = n; }
 		nodo *getSiguiente() const { return siguiente; }
 	};
-	nodo<T> *inicio = nullptr;
+	nodo *inicio = nullptr;
 	size_t len = 0;
 
   public:
 	lista() = default;
-	void insertar(T& n, size_t pos = 0) {
+	void insertar(T &n, size_t pos = 0) {
 		if (pos == 0) {
 			insertarInicio(n);
 		} else if (pos <= len) {
-			nodo<T> *actual = getNodo(pos - 1);
-			actual->setSiguiente(new nodo<T>(n, actual->getSiguiente()));
+			nodo *actual = getNodo(pos - 1);
+			actual->setSiguiente(new nodo(n, actual->getSiguiente()));
 			len++;
 		}
 	}
 
-	void insertarInicio(T& n) {
-		inicio = new nodo<T>(n, inicio);
+	void insertarInicio(T &n) {
+		inicio = new nodo(n, inicio);
 		len++;
 	}
-	void insertarFinal(T& n) {
+	void insertarFinal(T &n) {
 		if (len == 0) {
 			insertarInicio(n);
 		} else {
-			getNodo(len - 1)->setSiguiente(new nodo<T>(n));
+			getNodo(len - 1)->setSiguiente(new nodo(n));
 			len++;
 		}
 	}
@@ -49,8 +50,8 @@ template <typename T> class lista {
 			return eliminarInicio();
 		}
 		if (pos < len) {
-			nodo<T> *previo = getNodo(pos - 1);
-			nodo<T> *sig = previo->getSiguiente()->getSiguiente();
+			nodo *previo = getNodo(pos - 1);
+			nodo *sig = previo->getSiguiente()->getSiguiente();
 			delete previo->getSiguiente();
 			previo->setSiguiente(sig);
 			len--;
@@ -61,7 +62,7 @@ template <typename T> class lista {
 
 	bool eliminarInicio() {
 		if (inicio) {
-			nodo<T> *siguiente = inicio->getSiguiente();
+			nodo *siguiente = inicio->getSiguiente();
 			delete inicio;
 			inicio = siguiente;
 			len--;
@@ -74,7 +75,7 @@ template <typename T> class lista {
 			if (len == 1) {
 				delete inicio;
 			} else {
-				nodo<T> *n = getNodo(len - 1);
+				nodo *n = getNodo(len - 1);
 				delete n->getSiguiente();
 				n->setSiguiente(nullptr);
 			}
@@ -84,8 +85,8 @@ template <typename T> class lista {
 		return false;
 	}
 
-	T &getValor(size_t pos) const {
-		nodo<T> *n = getNodo(pos);
+	T &at(size_t pos) const {
+		nodo *n = getNodo(pos);
 		if (n) {
 			return n->getValor();
 		}
@@ -99,8 +100,10 @@ template <typename T> class lista {
 		}
 	}
 
+	T &operator[](size_t pos) const { return at(pos); }
+
   private:
-	nodo<T> *getNodo(size_t pos) const {
+	nodo *getNodo(size_t pos) const {
 		// c++ 17, pre c++17 puede declarar uno de los 2 afuera
 		for (auto [n, i] = std::tuple{inicio, 0}; n;
 		     i++, n = n->getSiguiente()) {
