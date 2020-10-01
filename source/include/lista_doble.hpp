@@ -25,7 +25,7 @@ template <typename T> class listaDoble {
 
   public:
 	listaDoble() = default;
-	void insertar(T n, size_t pos = 0) {
+	void insertar(T& n, size_t pos = 0) {
 		if (pos == 0) {
 			insertarInicio(n);
 		} else if (pos <= len) {
@@ -36,11 +36,11 @@ template <typename T> class listaDoble {
 			len++;
 		}
 	}
-	void insertarInicio(T n) {
+	void insertarInicio(T& n) {
 		inicio = new nodo<T>(n, inicio);
 		len++;
 	}
-	void insertarFinal(T n) {
+	void insertarFinal(T& n) {
 		if (n == 0) {
 			insertarInicio(n);
 		} else {
