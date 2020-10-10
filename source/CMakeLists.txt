@@ -10,6 +10,7 @@ set(src_include
     include/lista_doble.hpp
     include/cola_prioridad.hpp
     include/vector.hpp
+    include/heap.hpp
 )
 
 set(src
