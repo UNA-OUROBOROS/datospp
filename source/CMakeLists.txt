@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 project(foro VERSION 0.1.0)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 
 include(CTest)
 enable_testing()
@@ -9,6 +9,7 @@ set(src_include
     include/lista.hpp
     include/lista_doble.hpp
     include/cola_prioridad.hpp
+    include/vector.hpp
 )
 
 set(src
