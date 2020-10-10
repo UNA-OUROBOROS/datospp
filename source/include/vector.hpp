@@ -48,8 +48,7 @@ template <typename T> class vector {
 			longitud = len;
 			delete[] arreglo;
 			arreglo = nuevo;
-		} 
-		else if (len < longitud) {
+		} else if (len < longitud) {
 			T *nuevo = new T[len];
 			if (copiar) {
 				size_t limite = std::min(cantidad, len);
@@ -57,7 +56,7 @@ template <typename T> class vector {
 					nuevo[i] = std::move(arreglo[i]);
 				}
 				if constexpr (std::is_pointer<T>::value) {
-					//eliminamos el resto
+					// eliminamos el resto
 					if (len < cantidad) {
 						size_t diferiencia = cantidad - len;
 						for (size_t i = diferiencia; i < cantidad; i++) {
@@ -66,18 +65,14 @@ template <typename T> class vector {
 					}
 				}
 				cantidad = limite;
-			} 
-			else {
+			} else {
 				cantidad = 0;
 			}
 
 			delete[] arreglo;
 			arreglo = nuevo;
 			longitud = len;
-			
 		}
-
-		
 	}
 
 	void reserve(size_t len = 0) {

@@ -2,10 +2,10 @@
 #include <vector.hpp>
 using std::cout;
 
-int main(int, char**) {
-	vector<int> v = {1,2,3,4,5};
+int main(int, char **) {
+	vector<int> v = {1, 2, 3, 4, 5};
 	v.emplace_back(6);
-	for (auto& val: v) {
+	for (auto &val : v) {
 		cout << val << "\n";
 	}
 	v.erase(v.size() - 1);
@@ -24,11 +24,11 @@ int main(int, char**) {
 	v3.resize(2);
 	v3.erase(0);
 	v = std::move(v3);
-	std::cout << "el resto esta en v1, len(v3):"<< v3.size() << "\n";
+	std::cout << "el resto esta en v1, len(v3):" << v3.size() << "\n";
 	for (auto &val : v) {
 		cout << val << "\n";
 	}
 
-    std::cout << "fin del recorrido!\n";
+	std::cout << "fin del recorrido!\n";
 	std::cin.ignore();
 }
