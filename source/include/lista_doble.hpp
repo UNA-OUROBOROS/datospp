@@ -45,7 +45,7 @@ template <typename T> class ListaDoble {
 		}
 		ultimo = actual;
 	}
-	ListaDoble(ListaDoble &&l)
+	ListaDoble(ListaDoble &&l) noexcept
 	    : inicio(l.inicio), ultimo(l.ultimo), len(l.len) {
 		l.ultimo = l.inicio = nullptr;
 		l.len = 0;
@@ -170,7 +170,7 @@ template <typename T> class ListaDoble {
 		}
 		ultimo = actual;
 	}
-	ListaDoble operator=(ListaDoble &&l) {
+	ListaDoble operator=(ListaDoble &&l)noexcept {
 		clear();
 		inicio = l.inicio;
 		ultimo = l.ultimo;
