@@ -33,6 +33,17 @@ template <typename T> class ListaDoble {
 
   public:
 	ListaDoble() = default;
+	ListaDoble(std::initializer_list<T> l) : len(l.size()) {
+		nodo *actual = inicio;
+		for (auto val : l) {
+			actual = new nodo(val, nullptr, actual);
+			nodo *anterior = actual->getAnterior();
+			if (anterior) {
+				anterior->setSiguiente(actual);
+			}
+		}
+		ultimo = actual;
+	}
 	ListaDoble(const ListaDoble &l) : len(l.len) {
 		nodo *otro = l.inicio;
 		nodo *actual = inicio;
@@ -170,7 +181,7 @@ template <typename T> class ListaDoble {
 		}
 		ultimo = actual;
 	}
-	ListaDoble operator=(ListaDoble &&l)noexcept {
+	ListaDoble operator=(ListaDoble &&l) noexcept {
 		clear();
 		inicio = l.inicio;
 		ultimo = l.ultimo;
