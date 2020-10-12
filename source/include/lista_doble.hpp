@@ -5,7 +5,7 @@
 #include <tuple>
 #include <type_traits>
 
-template <typename T> class listaDoble {
+template <typename T> class ListaDoble {
   private:
 	class nodo {
 		T valor;
@@ -28,11 +28,28 @@ template <typename T> class listaDoble {
 		}
 	};
 	nodo *inicio = nullptr;
-	nodo *ultimo = nullptr;
+	nodo *ultimo = inicio;
 	size_t len = 0;
 
   public:
-	listaDoble() = default;
+	ListaDoble() = default;
+	ListaDoble(const ListaDoble &l) : len(l.len) {
+		nodo *otro = l.inicio;
+		nodo *actual = inicio;
+		for (size_t pos = 0; pos < l.len; pos++) {
+			actual = new nodo(otro->getValor(), nullptr, actual);
+			nodo *anterior = actual->getAnterior();
+			if (anterior) {
+				anterior->setSiguiente(actual);
+			}
+		}
+		ultimo = actual;
+	}
+	ListaDoble(ListaDoble &&l)
+	    : inicio(l.inicio), ultimo(l.ultimo), len(l.len) {
+		l.ultimo = l.inicio = nullptr;
+		l.len = 0;
+	}
 	void insertar(T &n, size_t pos = 0) {
 		if (pos == 0) {
 			insertarInicio(n);
@@ -42,8 +59,7 @@ template <typename T> class listaDoble {
 			anterior->getSiguiente()->setSiguiente(nuevo);
 			anterior->setSiguiente(nuevo);
 			len++;
-		}
-		else{
+		} else {
 			throw std::out_of_range("posicion fuera de los limites");
 		}
 	}
@@ -53,7 +69,7 @@ template <typename T> class listaDoble {
 		if (sig) {
 			sig->setAnterior(inicio);
 		}
-		
+
 		if (!ultimo) {
 			ultimo = inicio;
 		}
@@ -125,8 +141,6 @@ template <typename T> class listaDoble {
 		}
 	}
 
-	T &operator[](size_t pos) const { return at(pos); }
-
   private:
 	nodo *getNodo(size_t pos) const {
 		// c++ 17, pre c++17 puede declarar uno de los 2 afuera
@@ -142,5 +156,27 @@ template <typename T> class listaDoble {
 	}
 
   public:
-	~listaDoble() { clear(); }
+	ListaDoble operator=(const ListaDoble &l) {
+		clear();
+
+		nodo *otro = l.inicio;
+		nodo *actual = inicio;
+		for (size_t pos = 0; pos < l.len; pos++) {
+			actual = new nodo(otro->getValor(), nullptr, actual);
+			nodo *anterior = actual->getAnterior();
+			if (anterior) {
+				anterior->setSiguiente(actual);
+			}
+		}
+		ultimo = actual;
+	}
+	ListaDoble operator=(ListaDoble &&l) {
+		clear();
+		inicio = l.inicio;
+		ultimo = l.ultimo;
+		len = l.len;
+		l.ultimo = l.inicio = nullptr;
+		l.len = 0;
+	}
+	~ListaDoble() { clear(); }
 };
