@@ -1,7 +1,9 @@
 #pragma once
 #include <cstddef>
+#include <initializer_list>
 #include <stdexcept>
 #include <tuple>
+#include <type_traits>
 
 template <typename T> class listaDoble {
   private:
@@ -19,6 +21,11 @@ template <typename T> class listaDoble {
 		void setAnterior(nodo *n) { anterior = n; }
 		nodo *getSiguiente() const { return siguiente; }
 		nodo *getAnterior() const { return anterior; }
+		~nodo() {
+			if constexpr (std::is_pointer<T>::value) {
+				delete valor;
+			}
+		}
 	};
 	nodo *inicio = nullptr;
 	nodo *ultimo = nullptr;
@@ -39,10 +46,18 @@ template <typename T> class listaDoble {
 	}
 	void insertarInicio(T &n) {
 		inicio = new nodo(n, inicio);
+		nodo *sig = inicio->getSiguiente();
+		if (sig) {
+			sig->setAnterior(inicio);
+		}
+		
+		if (!ultimo) {
+			ultimo = inicio;
+		}
 		len++;
 	}
 	void insertarFinal(T &n) {
-		if (n == 0) {
+		if (n == 0 || len == 0) {
 			insertarInicio(n);
 		} else {
 			ultimo->setSiguiente(new nodo(n, nullptr, ultimo));
