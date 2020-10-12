@@ -43,6 +43,9 @@ template <typename T> class listaDoble {
 			anterior->setSiguiente(nuevo);
 			len++;
 		}
+		else{
+			throw std::out_of_range("posicion fuera de los limites");
+		}
 	}
 	void insertarInicio(T &n) {
 		inicio = new nodo(n, inicio);
