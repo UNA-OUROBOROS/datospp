@@ -74,7 +74,6 @@ template <typename T> class Vector {
 			longitud = len;
 		}
 	}
-
 	void reserve(size_t len = 0) {
 		if (len == 0) {
 			len = longitud ? longitud : 5;
@@ -96,6 +95,25 @@ template <typename T> class Vector {
 		if constexpr (std::is_pointer<T>::value) {
 			delete val;
 		}
+	}
+
+	void insert(T &val, size_t pos) {
+		if (pos < cantidad && cantidad == longitud) {
+			reserve();
+		}
+		for (size_t i = cantidad; (i) > pos; i--) {
+			arreglo[i] = std::move(arreglo[i - 1]);
+		}
+		arreglo[pos] = val;
+	}
+	void insert(T &&val, size_t pos) {
+		if (pos < cantidad && cantidad == longitud) {
+			reserve();
+		}
+		for (size_t i = cantidad; (i) > pos; i--) {
+			arreglo[i] = std::move(arreglo[i - 1]);
+		}
+		arreglo[pos] = std::move(val);
 	}
 
 	template <typename... Argumentos>
