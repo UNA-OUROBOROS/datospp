@@ -63,20 +63,8 @@ template <typename T> class ListaDoble {
 		l.ultimo = l.inicio = nullptr;
 		l.len = 0;
 	}
-	void insertar(T &n, size_t pos = 0) {
-		if (pos == 0) {
-			insertarInicio(n);
-		} else if (pos <= len) {
-			nodo *anterior = getNodo(pos - 1);
-			nodo *nuevo = new nodo(n, anterior, anterior->getSiguiente());
-			anterior->getSiguiente()->setSiguiente(nuevo);
-			anterior->setSiguiente(nuevo);
-			len++;
-		} else {
-			throw std::out_of_range("posicion fuera de los limites");
-		}
-	}
-	void insertarInicio(T &n) {
+
+	void push_front(T &n) {
 		inicio = new nodo(n, inicio);
 		nodo *sig = inicio->getSiguiente();
 		if (sig) {
@@ -88,9 +76,9 @@ template <typename T> class ListaDoble {
 		}
 		len++;
 	}
-	void insertarFinal(T &n) {
+	void push_back(T &n) {
 		if (n == 0 || len == 0) {
-			insertarInicio(n);
+			push_front(n);
 		} else {
 			ultimo->setSiguiente(new nodo(n, nullptr, ultimo));
 			ultimo = ultimo->getSiguiente();
@@ -98,21 +86,7 @@ template <typename T> class ListaDoble {
 			len++;
 		}
 	}
-	bool eliminar(size_t pos = 0) {
-		if (pos == 0) {
-			return eliminarInicio();
-		}
-		if (pos < len) {
-			nodo *previo = getNodo(pos - 1);
-			nodo *sig = previo->getSiguiente()->getSiguiente();
-			delete previo->getSiguiente();
-			previo->setSiguiente(sig);
-			len--;
-			return true;
-		}
-		return false;
-	}
-	bool eliminarInicio() {
+	bool pop_front() {
 		if (inicio) {
 			nodo *siguiente = inicio->getSiguiente();
 			delete inicio;
@@ -125,7 +99,7 @@ template <typename T> class ListaDoble {
 		}
 		return false;
 	}
-	bool eliminarFinal() {
+	bool pop_back() {
 		if (len != 0) {
 			if (len == 1) {
 				delete inicio;
@@ -139,22 +113,60 @@ template <typename T> class ListaDoble {
 		}
 		return false;
 	}
-	T &at(size_t pos) const {
+
+	void insert(T &n, size_t pos = 0) {
+		if (pos == 0) {
+			push_front(n);
+		} else if (pos <= len) {
+			nodo *anterior = getNodo(pos - 1);
+			nodo *nuevo = new nodo(n, anterior, anterior->getSiguiente());
+			anterior->getSiguiente()->setSiguiente(nuevo);
+			anterior->setSiguiente(nuevo);
+			len++;
+		} else {
+			throw std::out_of_range("posicion fuera de los limites");
+		}
+	}
+	bool erase(size_t pos = 0) {
+		if (pos == 0) {
+			return pop_front();
+		}
+		if (pos < len) {
+			nodo *previo = getNodo(pos - 1);
+			nodo *sig = previo->getSiguiente()->getSiguiente();
+			delete previo->getSiguiente();
+			previo->setSiguiente(sig);
+			len--;
+			return true;
+		}
+		return false;
+	}
+
+	size_t size() const { return len; }
+	bool empty() const { return len; }
+	void clear() {
+		while (len) {
+			pop_front();
+		}
+	}
+
+	T &at(size_t pos) {
 		nodo *n = getNodo(pos);
 		if (n) {
 			return n->getValor();
 		}
 		throw std::out_of_range("posicion fuera de los limites");
 	}
-	size_t size() const { return len; }
-	bool empty() const { return len; }
-	void clear() {
-		while (len) {
-			eliminarInicio();
+	const T &at(size_t pos) const {
+		nodo *n = getNodo(pos);
+		if (n) {
+			return n->getValor();
 		}
+		throw std::out_of_range("posicion fuera de los limites");
 	}
 
-	T &operator[](size_t pos) const { return at(pos); }
+	T &operator[](size_t pos) { return at(pos); }
+	const T &operator[](size_t pos) const { return at(pos); }
 
 	void swap(size_t a, size_t b) {
 		if (len && a < len && b < len && a != b) {
