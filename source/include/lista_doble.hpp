@@ -36,9 +36,14 @@ template <typename T> class ListaDoble {
   public:
 	ListaDoble() = default;
 	ListaDoble(std::initializer_list<T> l) : len(l.size()) {
-		nodo *actual = inicio;
+		nodo *actual = nullptr;
 		for (auto val : l) {
-			actual = new nodo(val, nullptr, actual);
+			if (actual) {
+				actual = new nodo(val, nullptr, actual);
+			} else {
+				inicio = new nodo(val, nullptr, actual);
+				actual = inicio;
+			}
 			nodo *anterior = actual->getAnterior();
 			if (anterior) {
 				anterior->setSiguiente(actual);
