@@ -99,13 +99,15 @@ template <typename T> class Heap : private Vector<T> {
 	}
 
 	Heap &heapify(bool ordenMayor = true) {
-		for (size_t i = size() / 2 - 1; i >= 0; i--) {
-			heapify_down(i, ordenMayor);
+		if (size()) {
+			for (size_t i = size() / 2 - 1; i >= 0; i--) {
+				heapify_down(i, ordenMayor);
+			}
+			for (size_t i = size() - 1; i >= 0; i--) {
+				Vector<T>::swap(0, i);
+				heapify_down(0, ordenMayor);
+			}
+			return *this;
 		}
-		for (size_t i = size() - 1; i >= 0; i--) {
-			Vector<T>::swap(0, i);
-			heapify_down(0, ordenMayor);
-		}
-		return *this;
 	}
 };
