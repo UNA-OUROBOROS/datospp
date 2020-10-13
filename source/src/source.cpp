@@ -1,21 +1,21 @@
 #include <iostream>
-#include <vector.hpp>
+#include <Vector.hpp>
 using std::cout;
 
 int main(int, char **) {
-	vector<int> v = {1, 2, 3, 4, 5};
+	Vector<int> v = {1, 2, 3, 4, 5};
 	v.emplace_back(6);
 	for (auto &val : v) {
 		cout << val << "\n";
 	}
 	v.erase(v.size() - 1);
 	std::cout << "copiado el elemento\n";
-	vector<int> v2 = v;
+	Vector<int> v2 = v;
 	for (auto &val : v2) {
 		cout << val << "\n";
 	}
 	v2.erase(v2.size() - 1);
-	vector<int> v3 = std::move(v2);
+	Vector<int> v3 = std::move(v2);
 	std::cout << "movido el elemento\n";
 	for (auto &val : v3) {
 		cout << val << "\n";
