@@ -146,14 +146,14 @@ template <typename T> class Vector {
 		return arreglo[pos];
 	}
 
+	T &operator[](size_t pos) { return at(pos); }
+	const T &operator[](size_t pos) const { return at(pos); }
+
 	void swap(size_t posA, size_t posB) {
 		if (posA != posB && posA < cantidad && posB < cantidad) {
 			std::swap(arreglo[posA], arreglo[posB]);
 		}
 	}
-
-	T &operator[](size_t pos) { return at(pos); }
-	const T &operator[](size_t pos) const { return at(pos); }
 
 	size_t size() const { return cantidad; }
 
