@@ -160,6 +160,10 @@ template <typename T> class vector {
 			++val;
 			return *this;
 		}
+		iterator &operator--() {
+			--val;
+			return *this;
+		}
 	};
 
 	class const_iterator {
