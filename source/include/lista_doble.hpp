@@ -152,6 +152,10 @@ template <typename T> class ListaDoble {
 		}
 	}
 
+	T& operator[](size_t pos) const {
+		return at();
+	}
+
   private:
 	nodo *getNodo(size_t pos) const {
 		// c++ 17, pre c++17 puede declarar uno de los 2 afuera
