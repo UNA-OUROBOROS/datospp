@@ -4,14 +4,14 @@
 #include <stdexcept>
 #include <type_traits>
 
-template <typename T> class vector {
+template <typename T> class Vector {
 	T *arreglo = nullptr;
 	size_t longitud = 0;
 	size_t cantidad = 0;
 
   public:
-	vector() = default;
-	vector(std::initializer_list<T> l)
+	Vector() = default;
+	Vector(std::initializer_list<T> l)
 	    : longitud(l.size()), cantidad(l.size()) {
 
 		arreglo = new T[longitud];
@@ -20,13 +20,13 @@ template <typename T> class vector {
 			i++;
 		}
 	}
-	vector(const vector<T> &v) : longitud(v.longitud), cantidad(v.cantidad) {
+	Vector(const Vector<T> &v) : longitud(v.longitud), cantidad(v.cantidad) {
 		arreglo = new T[longitud];
 		for (size_t i = 0; i < cantidad; i++) {
 			arreglo[i] = v.arreglo[i];
 		}
 	}
-	vector(vector<T> &&v) noexcept
+	Vector(Vector<T> &&v) noexcept
 	    : longitud(v.longitud), cantidad(v.cantidad) {
 		arreglo = std::move(v.arreglo);
 		v.cantidad = 0;
@@ -194,7 +194,7 @@ template <typename T> class vector {
 		return const_iterator(arreglo[cantidad]);
 	}
 
-	vector &operator=(const vector<T> &v) {
+	Vector &operator=(const Vector<T> &v) {
 		if constexpr (std::is_pointer<T>::value) {
 			for (size_t i = 0; i < cantidad; i++) {
 				delete arreglo[i];
@@ -212,7 +212,7 @@ template <typename T> class vector {
 		return *this;
 	}
 
-	vector &operator=(vector<T> &&v) noexcept {
+	Vector &operator=(Vector<T> &&v) noexcept {
 		if constexpr (std::is_pointer<T>::value) {
 			for (size_t i = 0; i < cantidad; i++) {
 				delete arreglo[i];
@@ -230,7 +230,7 @@ template <typename T> class vector {
 		return *this;
 	}
 
-	~vector() {
+	~Vector() {
 		if constexpr (std::is_pointer<T>::value) {
 			for (size_t i = 0; i < cantidad; i++) {
 				delete arreglo[i];
