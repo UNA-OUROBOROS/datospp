@@ -167,6 +167,25 @@ template <typename T> class ListaDoble {
 	}
 
   public:
+	class Iterator {
+		nodo *actual = nullptr;
+
+	  public:
+		Iterator(nodo &n = nullptr) : actual(n) {}
+
+		T &operator*() { return actual->getValor(); }
+		bool operator!=(Iterator &o) { return this->actual != o.actual; }
+
+		Iterator &operator++() {
+			actual = actual ? actual->getSiguiente() : actual;
+			return *this;
+		}
+		Iterator &operator--() {
+			actual = actual ? actual->getAnterior() : actual;
+			return *this;
+		}
+	};
+
 	ListaDoble operator=(const ListaDoble &l) {
 		clear();
 
@@ -189,5 +208,9 @@ template <typename T> class ListaDoble {
 		l.ultimo = l.inicio = nullptr;
 		l.len = 0;
 	}
+
+	Iterator begin() { return Iterator(inicio); }
+	Iterator end() { return Iterator(ultimo); }
+
 	~ListaDoble() { clear(); }
 };
