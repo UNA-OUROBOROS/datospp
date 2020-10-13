@@ -36,11 +36,23 @@ template <typename T> class Heap : private Vector<T> {
 	}
 
   public:
-	size_t size() { return Vector<T>::size(); }
-	bool empty() { return size() == 0; }
+	Heap() = default;
+	Heap(std::initializer_list<T> l) : Vector<T>(l) { heapify(); }
+	Heap(Heap<T> &&heap) : Vector<T>(heap) { heapify(); }
+	Heap(Heap<T> &heap) : Vector<T>(heap) { heapify(); }
+	Heap(Vector<T> &&v) : Vector<T>(v) { heapify(); }
+	Heap(Vector<T> &v) : Vector<T>(v) { heapify(); }
 
-	void push(T valor) {
-		Vector<T>::insertarFinal(valor);
+	size_t size() const { return Vector<T>::size(); }
+	bool empty() const { return size() == 0; }
+
+	void push(T &valor) {
+		Vector<T>::push_back(valor);
+		size_t indice = size() - 1;
+		heapify_up(indice);
+	}
+	void push(T &&valor) {
+		Vector<T>::push_back(valor);
 		size_t indice = size() - 1;
 		heapify_up(indice);
 	}
@@ -49,7 +61,7 @@ template <typename T> class Heap : private Vector<T> {
 			throw std::underflow_error("no hay elementos en el Heap");
 		}
 		Vector<T>::at(0) = Vector<T>::at(size() - 1);
-		Vector<T>::eliminarFinal();
+		Vector<T>::pop_back();
 		heapify_down(0);
 	}
 	T top() {
@@ -57,5 +69,41 @@ template <typename T> class Heap : private Vector<T> {
 			throw std::underflow_error("no hay elementos en el Heap");
 		}
 		return Vector<T>::at(0);
+	}
+	const T top() const {
+		if (empty()) {
+			throw std::underflow_error("no hay elementos en el Heap");
+		}
+		return Vector<T>::at(0);
+	}
+
+	T &operator[](size_t pos) { return Vector<T>::at(pos); }
+
+	Heap &operator=(Heap<T> &&heap) {
+		Vector<T>::operator=(heap);
+		heapify();
+	}
+	Heap &operator=(Heap<T> &heap) {
+		Vector<T>::operator=(heap);
+		heapify();
+	}
+	Heap &operator=(Vector<T> &&v) {
+		Vector<T>::operator=(v);
+		heapify();
+	}
+	Heap &operator=(Vector<T> &v) {
+		Vector<T>::operator=(v);
+		heapify();
+	}
+
+	Heap &heapify(bool ordenMayor = true) {
+		for (size_t i = size() / 2 - 1; i >= 0; i--) {
+			heapify_down(i, ordenMayor);
+		}
+		for (size_t i = size() - 1; i >= 0; i--) {
+			Vector<T>::swap(0, i);
+			heapify_down(0, ordenMayor);
+		}
+		return *this;
 	}
 };
