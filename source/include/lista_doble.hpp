@@ -200,6 +200,24 @@ template <typename T> class ListaDoble {
 			return *this;
 		}
 	};
+	class ConstIterator {
+		nodo *actual = nullptr;
+
+	  public:
+		ConstIterator(nodo *n = nullptr) : actual(n) {}
+
+		const T &operator*() { return actual->getValor(); }
+		bool operator!=(ConstIterator &o) { return this->actual != o.actual; }
+
+		ConstIterator &operator++() {
+			actual = actual ? actual->getSiguiente() : actual;
+			return *this;
+		}
+		ConstIterator &operator--() {
+			actual = actual ? actual->getAnterior() : actual;
+			return *this;
+		}
+	};
 
 	ListaDoble operator=(const ListaDoble &l) {
 		clear();
