@@ -21,6 +21,10 @@ template <typename T> class ListaDoble {
 		void setAnterior(nodo *n) { anterior = n; }
 		nodo *getSiguiente() const { return siguiente; }
 		nodo *getAnterior() const { return anterior; }
+		void swap(nodo& b){
+			std::swap(valor, b.valor);
+		}
+		
 		~nodo() {
 			if constexpr (std::is_pointer<T>::value) {
 				delete valor;
@@ -156,8 +160,20 @@ template <typename T> class ListaDoble {
 		return at();
 	}
 
+	void swap(size_t a, size_t b){
+		if(len && a < len && b < len && a != b){
+			nodo* nodoA = getNodo(a);
+			nodo* nodoB = getNodo(b);
+			swap(nodoA, nodoB);
+		}
+
+	}
+
   private:
 	nodo *getNodo(size_t pos) const {
+		if(pos >= len || len == 0){
+			return nullptr;
+		}
 		// c++ 17, pre c++17 puede declarar uno de los 2 afuera
 		bool reversa = pos > len / 2;
 		for (auto [n, i] = std::tuple{inicio, reversa ? len - 1 : 0}; n;
