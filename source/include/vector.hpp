@@ -134,7 +134,6 @@ template <typename T> class Vector {
 			erase(size() - 1);
 		}
 	}
-
 	void erase(size_t pos) {
 		for (size_t i = pos; (i + 1) < cantidad; i++) {
 			arreglo[i] = std::move(arreglo[i + 1]);
@@ -143,6 +142,17 @@ template <typename T> class Vector {
 			delete arreglo[cantidad - 1];
 		}
 		cantidad--;
+	}
+
+	void clear() {
+		if constexpr (std::is_pointer<T>::value) {
+			for (size_t i = 0; i < cantidad; i++) {
+				delete arreglo[i];
+			}
+		}
+		delete[] arreglo;
+		arreglo = new T[longitud ? longitud : 1];
+		cantidad = 0;
 	}
 
 	T &at(size_t pos) {
@@ -174,6 +184,7 @@ template <typename T> class Vector {
 	}
 
 	size_t size() const { return cantidad; }
+	bool empty() const { return cantidad == 0; }
 
 	class iterator {
 		T *val = nullptr;

@@ -64,18 +64,20 @@ template <typename T> class Heap : private Vector<T> {
 		Vector<T>::pop_back();
 		heapify_down(0);
 	}
-	T& top() {
+	T &top() {
 		if (empty()) {
 			throw std::underflow_error("no hay elementos en el Heap");
 		}
 		return Vector<T>::at(0);
 	}
-	const T& top() const {
+	const T &top() const {
 		if (empty()) {
 			throw std::underflow_error("no hay elementos en el Heap");
 		}
 		return Vector<T>::at(0);
 	}
+
+	void clear() { Vector<T>::clear(); }
 
 	T &operator[](size_t pos) { return Vector<T>::at(pos); }
 
