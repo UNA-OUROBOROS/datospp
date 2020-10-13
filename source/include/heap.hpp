@@ -107,7 +107,7 @@ template <typename T> class Heap : private Vector<T> {
 				Vector<T>::swap(0, i);
 				heapify_down(0, ordenMayor);
 			}
-			return *this;
 		}
+		return *this;
 	}
 };
