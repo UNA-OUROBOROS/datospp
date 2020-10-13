@@ -8,28 +8,22 @@ class Heap: private Vector<T>{
 	size_t getDerecho(size_t pos) { return (2 * pos + 2); }
 
 	void heapify_down(size_t pos) {
-
 		size_t izquierdo = getIzquierdo(pos);
 		size_t derecho = getDerecho(pos);
 		size_t mayor = pos;
 
-
 		if (izquierdo < size() && Vector<T>::at(izquierdo) > Vector<T>::at(pos)) {
 			mayor = izquierdo;
 		}
-			
 		if (derecho < size() && Vector<T>::at(derecho) > Vector<T>::at(mayor)) {
 			mayor = derecho;
 		}
-			
-
 		if (mayor != pos) {
 			Vector<T>::swap(pos, mayor);
 			heapify_down(mayor);
 		}
 	}
 	void heapify_up(size_t pos) {
-
 		if (pos && Vector<T>::at(getPadre(pos)) < Vector<T>::at(pos)) {
 			Vector<T>::swap(pos, getPadre(pos));
 			heapify_up(getPadre(pos));
