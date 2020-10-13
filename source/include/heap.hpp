@@ -46,10 +46,10 @@ template <typename T> class Heap : private Vector<T> {
 	size_t size() const { return Vector<T>::size(); }
 	bool empty() const { return size() == 0; }
 
-	void push(T &valor) {
+	void push(T &valor, bool ordenMayor = true) {
 		Vector<T>::push_back(valor);
 		size_t indice = size() - 1;
-		heapify_up(indice);
+		heapify_up(indice, ordenMayor);
 	}
 	void push(T &&valor) {
 		Vector<T>::push_back(valor);
