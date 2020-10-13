@@ -26,8 +26,10 @@ template <typename T> class Heap : private Vector<T> {
 			heapify_down(mayor);
 		}
 	}
-	void heapify_up(size_t pos) {
-		if (pos && Vector<T>::at(getPadre(pos)) < Vector<T>::at(pos)) {
+	void heapify_up(size_t pos, bool ordenMayor = true) {
+		if (pos &&
+		    (ordenMayor ? Vector<T>::at(getPadre(pos)) < Vector<T>::at(pos)
+		                : Vector<T>::at(getPadre(pos)) > Vector<T>::at(pos))) {
 			Vector<T>::swap(pos, getPadre(pos));
 			heapify_up(getPadre(pos));
 		}
