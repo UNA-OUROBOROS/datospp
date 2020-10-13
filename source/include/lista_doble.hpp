@@ -171,8 +171,9 @@ template <typename T> class ListaDoble {
 		}
 		// c++ 17, pre c++17 puede declarar uno de los 2 afuera
 		bool reversa = pos > len / 2;
-		for (auto [n, i] = std::tuple{inicio, reversa ? len - 1 : 0}; n;
-		     (reversa ? i-- : i++),
+		for (auto [n, i] =
+		         std::tuple{reversa ? ultimo : inicio, reversa ? len - 1 : 0};
+		     n; (reversa ? i-- : i++),
 		              n = (reversa ? n->getAnterior() : n->getSiguiente())) {
 			if (i == pos) {
 				return n;
