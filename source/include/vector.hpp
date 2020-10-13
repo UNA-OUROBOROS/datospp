@@ -38,7 +38,7 @@ template <typename T> class Vector {
 
 		if (len > longitud) {
 			T *nuevo = new T[len];
-			if (copiar) {
+			if (copiar && arreglo) {
 				for (size_t i = 0; i < cantidad; i++) {
 					nuevo[i] = std::move(arreglo[i]);
 				}
@@ -77,7 +77,7 @@ template <typename T> class Vector {
 
 	void reserve(size_t len = 0) {
 		if (len == 0) {
-			len = longitud;
+			len = longitud ? longitud : 5;
 		}
 		resize(longitud + len);
 	}
@@ -111,6 +111,12 @@ template <typename T> class Vector {
 		}
 	}
 
+	void pop_back() {
+		if (cantidad) {
+			erase(size() - 1);
+		}
+	}
+
 	void erase(size_t pos) {
 		for (size_t i = pos; (i + 1) < cantidad; i++) {
 			arreglo[i] = std::move(arreglo[i + 1]);
@@ -121,7 +127,7 @@ template <typename T> class Vector {
 		cantidad--;
 	}
 
-	T &operator[](size_t pos) {
+	T &at(size_t pos) {
 		if (pos > cantidad) {
 			throw std::out_of_range("posicion fuera de limites");
 		}
@@ -130,7 +136,7 @@ template <typename T> class Vector {
 		}
 		return arreglo[pos];
 	}
-	const T &operator[](size_t pos) const {
+	const T &at(size_t pos) const {
 		if (pos > cantidad) {
 			throw std::out_of_range("posicion fuera de limites");
 		}
@@ -139,6 +145,15 @@ template <typename T> class Vector {
 		}
 		return arreglo[pos];
 	}
+
+	void swap(size_t posA, size_t posB) {
+		if (posA != posB && posA < cantidad && posB < cantidad) {
+			std::swap(arreglo[posA], arreglo[posB]);
+		}
+	}
+
+	T &operator[](size_t pos) { return at(pos); }
+	const T &operator[](size_t pos) const { return at(pos); }
 
 	size_t size() const { return cantidad; }
 
