@@ -1,16 +1,10 @@
 #pragma once
 #include <vector.hpp>
 
-
 template<typename T>
-class Heap: private Vector<T>
-{
-
+class Heap: private Vector<T>{
 	size_t getPadre(size_t pos) { return (pos - 1) / 2; }
-
 	size_t getIzquierdo(size_t pos) { return (2 * pos + 1); }
-
-
 	size_t getDerecho(size_t pos) { return (2 * pos + 2); }
 
 	void heapify_down(size_t pos) {
@@ -34,7 +28,6 @@ class Heap: private Vector<T>
 			heapify_down(mayor);
 		}
 	}
-
 	void heapify_up(size_t pos) {
 
 		if (pos && Vector<T>::at(getPadre(pos)) < Vector<T>::at(pos)) {
@@ -42,21 +35,15 @@ class Heap: private Vector<T>
 			heapify_up(getPadre(pos));
 		}
 	}
-
 public:
-
 	size_t size() { return Vector<T>::size(); }
-
 	bool empty() { return size() == 0; }
 
 	void push(T valor) {
 		Vector<T>::insertarFinal(valor);
-
 		size_t indice = size() - 1;
 		heapify_up(indice);
 	}
-
-
 	void pop() {
 		if (empty()) {
 			throw std::underflow_error("no hay elementos en el Heap");
@@ -65,8 +52,6 @@ public:
 		Vector<T>::eliminarFinal();
 		heapify_down(0);
 	}
-
-
 	T top() {
 		if (empty()) {
 			throw std::underflow_error("no hay elementos en el Heap");
