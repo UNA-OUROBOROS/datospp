@@ -21,10 +21,8 @@ template <typename T> class ListaDoble {
 		void setAnterior(nodo *n) { anterior = n; }
 		nodo *getSiguiente() const { return siguiente; }
 		nodo *getAnterior() const { return anterior; }
-		void swap(nodo& b){
-			std::swap(valor, b.valor);
-		}
-		
+		void swap(nodo &b) { std::swap(valor, b.valor); }
+
 		~nodo() {
 			if constexpr (std::is_pointer<T>::value) {
 				delete valor;
@@ -156,22 +154,19 @@ template <typename T> class ListaDoble {
 		}
 	}
 
-	T& operator[](size_t pos) const {
-		return at();
-	}
+	T &operator[](size_t pos) const { return at(pos); }
 
-	void swap(size_t a, size_t b){
-		if(len && a < len && b < len && a != b){
-			nodo* nodoA = getNodo(a);
-			nodo* nodoB = getNodo(b);
-			swap(nodoA, nodoB);
+	void swap(size_t a, size_t b) {
+		if (len && a < len && b < len && a != b) {
+			nodo *nodoA = getNodo(a);
+			nodo *nodoB = getNodo(b);
+			nodoA->swap(*nodoB);
 		}
-
 	}
 
   private:
 	nodo *getNodo(size_t pos) const {
-		if(pos >= len || len == 0){
+		if (pos >= len || len == 0) {
 			return nullptr;
 		}
 		// c++ 17, pre c++17 puede declarar uno de los 2 afuera
@@ -191,7 +186,7 @@ template <typename T> class ListaDoble {
 		nodo *actual = nullptr;
 
 	  public:
-		Iterator(nodo &n = nullptr) : actual(n) {}
+		Iterator(nodo *n = nullptr) : actual(n) {}
 
 		T &operator*() { return actual->getValor(); }
 		bool operator!=(Iterator &o) { return this->actual != o.actual; }
