@@ -1,21 +1,24 @@
 #pragma once
 #include <vector.hpp>
 
-template<typename T>
-class Heap: private Vector<T>{
+template <typename T> class Heap : private Vector<T> {
 	size_t getPadre(size_t pos) { return (pos - 1) / 2; }
 	size_t getIzquierdo(size_t pos) { return (2 * pos + 1); }
 	size_t getDerecho(size_t pos) { return (2 * pos + 2); }
 
-	void heapify_down(size_t pos) {
+	void heapify_down(size_t pos, bool ordenMayor = true) {
 		size_t izquierdo = getIzquierdo(pos);
 		size_t derecho = getDerecho(pos);
 		size_t mayor = pos;
 
-		if (izquierdo < size() && Vector<T>::at(izquierdo) > Vector<T>::at(pos)) {
+		if (izquierdo < size() &&
+		    (ordenMayor ? Vector<T>::at(izquierdo) > Vector<T>::at(pos)
+		                : Vector<T>::at(izquierdo) < Vector<T>::at(pos))) {
 			mayor = izquierdo;
 		}
-		if (derecho < size() && Vector<T>::at(derecho) > Vector<T>::at(mayor)) {
+		if (derecho < size() &&
+		    (ordenMayor ? Vector<T>::at(derecho) > Vector<T>::at(mayor)
+		                : Vector<T>::at(derecho) < Vector<T>::at(mayor))) {
 			mayor = derecho;
 		}
 		if (mayor != pos) {
@@ -29,7 +32,8 @@ class Heap: private Vector<T>{
 			heapify_up(getPadre(pos));
 		}
 	}
-public:
+
+  public:
 	size_t size() { return Vector<T>::size(); }
 	bool empty() { return size() == 0; }
 
@@ -53,4 +57,3 @@ public:
 		return Vector<T>::at(0);
 	}
 };
-
