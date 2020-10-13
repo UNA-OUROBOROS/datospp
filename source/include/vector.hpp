@@ -27,8 +27,8 @@ template <typename T> class Vector {
 		}
 	}
 	Vector(Vector<T> &&v) noexcept
-	    : longitud(v.longitud), cantidad(v.cantidad) {
-		arreglo = std::move(v.arreglo);
+	    : arreglo(std::move(v.arreglo)), longitud(v.longitud),
+	      cantidad(v.cantidad) {
 		v.cantidad = 0;
 		v.longitud = 0;
 		v.arreglo = nullptr;
