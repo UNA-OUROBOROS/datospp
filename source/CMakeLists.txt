@@ -25,6 +25,13 @@ target_include_directories(source PRIVATE include)
 add_executable(problemas-tda ${src} ejercicios/problemas-tda/problemas-tda.cpp)
 target_include_directories(problemas-tda PRIVATE include)
 
+
+if (MSVC)
+    add_compile_options(/W3)
+else()
+    add_compile_options(-Wall -Wextra -pedantic)
+endif()
+
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
 include(CPack)
