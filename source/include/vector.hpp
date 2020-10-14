@@ -15,7 +15,8 @@ template <typename T> class Vector {
 	    : longitud(l.size()), cantidad(l.size()) {
 
 		arreglo = new T[longitud];
-		for (size_t i = 0; auto val : l) {
+		size_t i = 0; 
+		for (auto val : l) {
 			arreglo[i] = val;
 			i++;
 		}
