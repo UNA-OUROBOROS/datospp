@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 project(foro VERSION 0.1.0)
 set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include(CTest)
 enable_testing()
@@ -29,7 +30,7 @@ target_include_directories(problemas-tda PRIVATE include)
 if (MSVC)
     add_compile_options(/W3)
 else()
-    add_compile_options(-Wall -Wextra -pedantic)
+    add_compile_options(-Wall -Wextra -pedantic -std=c++20)
 endif()
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
