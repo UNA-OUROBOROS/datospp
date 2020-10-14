@@ -23,8 +23,6 @@ set(src
 #add_executable(foro ${src})
 add_executable(source ${src} src/source.cpp)
 target_include_directories(source PRIVATE include)
-add_executable(problemas-tda ${src} ejercicios/problemas-tda/problemas-tda.cpp)
-target_include_directories(problemas-tda PRIVATE include)
 
 
 if (MSVC)
