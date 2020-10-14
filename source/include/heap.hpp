@@ -9,21 +9,21 @@ template <typename T> class Heap : private Vector<T> {
 	void heapify_down(size_t pos, bool ordenMayor = true) {
 		size_t izquierdo = getIzquierdo(pos);
 		size_t derecho = getDerecho(pos);
-		size_t mayor = pos;
+		size_t actual = pos;
 
 		if (izquierdo < size() &&
 		    (ordenMayor ? Vector<T>::at(izquierdo) > Vector<T>::at(pos)
 		                : Vector<T>::at(izquierdo) < Vector<T>::at(pos))) {
-			mayor = izquierdo;
+			actual = izquierdo;
 		}
 		if (derecho < size() &&
-		    (ordenMayor ? Vector<T>::at(derecho) > Vector<T>::at(mayor)
-		                : Vector<T>::at(derecho) < Vector<T>::at(mayor))) {
-			mayor = derecho;
+		    (ordenMayor ? Vector<T>::at(derecho) > Vector<T>::at(actual)
+		                : Vector<T>::at(derecho) < Vector<T>::at(actual))) {
+			actual = derecho;
 		}
-		if (mayor != pos) {
-			Vector<T>::swap(pos, mayor);
-			heapify_down(mayor);
+		if (actual != pos) {
+			Vector<T>::swap(pos, actual);
+			heapify_down(actual);
 		}
 	}
 	void heapify_up(size_t pos, bool ordenMayor = true) {
@@ -60,7 +60,8 @@ template <typename T> class Heap : private Vector<T> {
 		if (empty()) {
 			throw std::underflow_error("no hay elementos en el Heap");
 		}
-		Vector<T>::at(0) = Vector<T>::at(size() - 1);
+		size_t pos = size() - 1;
+		Vector<T>::at(0) = Vector<T>::at(pos);
 		Vector<T>::pop_back();
 		heapify_down(0);
 	}
