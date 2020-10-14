@@ -110,8 +110,9 @@ template <typename T> class ListaDoble {
 				delete inicio;
 			} else {
 				nodo *n = getNodo(len - 1);
-				delete n->getSiguiente();
-				n->setSiguiente(nullptr);
+				ultimo = n->getAnterior();
+				ultimo->setSiguiente(nullptr);
+				delete n;
 			}
 			len--;
 			return true;
