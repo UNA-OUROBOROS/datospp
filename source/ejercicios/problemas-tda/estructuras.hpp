@@ -12,15 +12,15 @@ template <typename T> class colaPrioridad : public ListaDoble<T> {
 			T val = ListaDoble<T>::at(i);
 			// cada clase es responsable de sobrecargar su operador
 			if (menor ? elem < val : elem > val) {
-				ListaDoble<T>::insertar(elem, i);
+				ListaDoble<T>::insert(elem, i);
 				return;
 			}
 		}
-		ListaDoble<T>::insertarFinal(elem);
+		ListaDoble<T>::push_back(elem);
 	}
 	T recuperar() {
 		T val = ListaDoble<T>::at(0);
-		ListaDoble<T>::eliminarInicio();
+		ListaDoble<T>::pop_front();
 		return val;
 	}
 	bool vacio() { return ListaDoble<T>::size() == 0; }
@@ -41,10 +41,10 @@ template <typename T> class pila : private ListaDoble<T> {
 // FIFO
 template <typename T> class cola : public ListaDoble<T> {
   public:
-	void insertar(T elem) { ListaDoble<T>::insertarFinal(elem); }
+	void insertar(T elem) { ListaDoble<T>::push_back(elem); }
 	T recuperar() {
 		T val = ListaDoble<T>::at(0);
-		ListaDoble<T>::eliminarInicio();
+		ListaDoble<T>::pop_front();
 		return val;
 	}
 	bool vacio() { return ListaDoble<T>::size() == 0; }
