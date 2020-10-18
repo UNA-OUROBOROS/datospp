@@ -251,6 +251,7 @@ template <typename T> class ListaDoble {
 			}
 		}
 		ultimo = actual;
+		return *this;
 	}
 	ListaDoble operator=(ListaDoble &&l) noexcept {
 		clear();
@@ -259,6 +260,7 @@ template <typename T> class ListaDoble {
 		len = l.len;
 		l.ultimo = l.inicio = nullptr;
 		l.len = 0;
+		return *this;
 	}
 
 	Iterator begin() { return Iterator(inicio); }
