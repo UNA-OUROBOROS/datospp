@@ -54,21 +54,11 @@ template <typename T> class lista {
 		l.len = 0;
 	}
 
-	void insertar(T &n, size_t pos = 0) {
-		if (pos == 0) {
-			insertarInicio(n);
-		} else if (pos <= len) {
-			nodo *actual = getNodo(pos - 1);
-			actual->setSiguiente(new nodo(n, actual->getSiguiente()));
-			len++;
-		}
-	}
-
-	void insertarInicio(T &n) {
+	void push_front(T &n) {
 		inicio = new nodo(n, inicio);
 		len++;
 	}
-	void insertarFinal(T &n) {
+	void push_back(T &n) {
 		if (len == 0) {
 			insertarInicio(n);
 		} else {
@@ -77,9 +67,18 @@ template <typename T> class lista {
 		}
 	}
 
-	bool eliminar(size_t pos = 0) {
+	void insert(T &n, size_t pos = 0) {
 		if (pos == 0) {
-			return eliminarInicio();
+			push_front(n);
+		} else if (pos <= len) {
+			nodo *actual = getNodo(pos - 1);
+			actual->setSiguiente(new nodo(n, actual->getSiguiente()));
+			len++;
+		}
+	}
+	bool erase(size_t pos = 0) {
+		if (pos == 0) {
+			return erase_front();
 		}
 		if (pos < len) {
 			nodo *previo = getNodo(pos - 1);
@@ -92,7 +91,7 @@ template <typename T> class lista {
 		return false;
 	}
 
-	bool eliminarInicio() {
+	bool erase_front() {
 		if (inicio) {
 			nodo *siguiente = inicio->getSiguiente();
 			delete inicio;
@@ -102,7 +101,7 @@ template <typename T> class lista {
 		}
 		return false;
 	}
-	bool eliminarFinal() {
+	bool erase_back() {
 		if (len != 0) {
 			if (len == 1) {
 				delete inicio;
@@ -133,6 +132,7 @@ template <typename T> class lista {
 	}
 
 	T &operator[](size_t pos) const { return at(pos); }
+	const T& operator[](size_t pos) const { return at(pos); }
 
   private:
 	nodo *getNodo(size_t pos) const {
@@ -147,5 +147,62 @@ template <typename T> class lista {
 	}
 
   public:
+	class Iterator {
+		nodo *actual = nullptr;
+
+	  public:
+		Iterator(nodo *n = nullptr) : actual(n) {}
+
+		T &operator*() { return actual->getValor(); }
+		bool operator!=(Iterator &o) { return this->actual != o.actual; }
+
+		Iterator &operator++() {
+			actual = actual ? actual->getSiguiente() : actual;
+			return *this;
+		}
+	};
+	class ConstIterator {
+		nodo *actual = nullptr;
+
+	  public:
+		ConstIterator(nodo *n = nullptr) : actual(n) {}
+
+		const T &operator*() { return actual->getValor(); }
+		bool operator!=(ConstIterator &o) { return this->actual != o.actual; }
+
+		ConstIterator &operator++() {
+			actual = actual ? actual->getSiguiente() : actual;
+			return *this;
+		}
+	};
+
+	Lista operator=(const Lista &l) {
+		clear();
+
+		nodo *otro = l.inicio;
+		nodo *actual = inicio;
+		for (size_t pos = 0; pos < l.len; pos++) {
+			if (actual) {
+				actual->setSiguiente(new nodo(otro->getValor()));
+				actual = actual->getSiguiente();
+			} else {
+				actual = new nodo(otro->getValor());
+			}
+			otro = otro->getSiguiente();
+		}
+		return *this;
+	}
+	Lista operator=(Lista &&l) noexcept {
+		clear();
+		inicio = l.inicio;
+		len = l.len;
+		l.inicio = nullptr;
+		l.len = 0;
+		return *this;
+	}
+
+	Iterator begin() { return Iterator(inicio); }
+	Iterator end() { return Iterator(getNodo(len - 1)); }
+
 	~lista() { clear(); }
 };
