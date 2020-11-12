@@ -11,7 +11,7 @@ template <typename T> class Vector {
 
   public:
 	Vector() = default;
-	Vector(std::initializer_list<T> l)
+	explicit Vector(std::initializer_list<T> l)
 	    : longitud(l.size()), cantidad(l.size()) {
 
 		arreglo = new T[longitud];
@@ -21,13 +21,13 @@ template <typename T> class Vector {
 			i++;
 		}
 	}
-	Vector(const Vector<T> &v) : longitud(v.longitud), cantidad(v.cantidad) {
+	explicit Vector(const Vector<T> &v) : longitud(v.longitud), cantidad(v.cantidad) {
 		arreglo = new T[longitud];
 		for (size_t i = 0; i < cantidad; i++) {
 			arreglo[i] = v.arreglo[i];
 		}
 	}
-	Vector(Vector<T> &&v) noexcept
+	explicit Vector(Vector<T> &&v) noexcept
 	    : arreglo(std::move(v.arreglo)), longitud(v.longitud),
 	      cantidad(v.cantidad) {
 		v.cantidad = 0;

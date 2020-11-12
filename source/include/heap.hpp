@@ -37,11 +37,11 @@ template <typename T> class Heap : private Vector<T> {
 
   public:
 	Heap() = default;
-	Heap(std::initializer_list<T> l) : Vector<T>(l) { heapify(); }
-	Heap(Heap<T> &&heap) : Vector<T>(heap) { heapify(); }
-	Heap(Heap<T> &heap) : Vector<T>(heap) { heapify(); }
-	Heap(Vector<T> &&v) : Vector<T>(v) { heapify(); }
-	Heap(Vector<T> &v) : Vector<T>(v) { heapify(); }
+	explicit Heap(std::initializer_list<T> l) : Vector<T>(l) { heapify(); }
+	explicit Heap(Heap<T> &&heap) : Vector<T>(heap) { heapify(); }
+	explicit Heap(Heap<T> &heap) : Vector<T>(heap) { heapify(); }
+	explicit Heap(Vector<T> &&v) : Vector<T>(v) { heapify(); }
+	explicit Heap(Vector<T> &v) : Vector<T>(v) { heapify(); }
 
 	size_t size() const { return Vector<T>::size(); }
 	bool empty() const { return size() == 0; }
