@@ -60,6 +60,7 @@ template <typename T> class ListaDoble {
 			if (anterior) {
 				anterior->setSiguiente(actual);
 			}
+			otro = otro->getSiguiente();
 		}
 		ultimo = actual;
 	}
@@ -249,6 +250,7 @@ template <typename T> class ListaDoble {
 			if (anterior) {
 				anterior->setSiguiente(actual);
 			}
+			otro = otro->getSiguiente();
 		}
 		ultimo = actual;
 		return *this;
