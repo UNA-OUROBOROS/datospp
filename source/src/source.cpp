@@ -10,12 +10,12 @@ int main(int, char **) {
 	}
 	v.erase(v.size() - 1);
 	std::cout << "copiado el elemento\n";
-	Vector<int> v2 = v;
+	Vector<int> v2(v);
 	for (auto &val : v2) {
 		cout << val << "\n";
 	}
 	v2.erase(v2.size() - 1);
-	Vector<int> v3 = std::move(v2);
+	Vector<int> v3(std::move(v2));
 	std::cout << "movido el elemento\n";
 	for (auto &val : v3) {
 		cout << val << "\n";

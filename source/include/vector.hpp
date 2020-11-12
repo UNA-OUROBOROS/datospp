@@ -11,7 +11,7 @@ template <typename T> class Vector {
 
   public:
 	Vector() = default;
-	explicit Vector(std::initializer_list<T> l)
+	Vector(std::initializer_list<T> l)
 	    : longitud(l.size()), cantidad(l.size()) {
 
 		arreglo = new T[longitud];
