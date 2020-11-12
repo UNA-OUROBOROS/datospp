@@ -34,6 +34,26 @@ template <typename T> class lista {
 			}
 		}
 	}
+	Lista(const Lista &l) : len(l.len) {
+		nodo *otro = l.inicio;
+		nodo *actual = inicio;
+		for (size_t pos = 0; pos < l.len; pos++) {
+			if(actual){
+				actual->setSiguiente(new nodo(otro->getValor()));
+				actual = actual->getSiguiente();
+			}
+			else{
+				actual = new nodo(otro->getValor());
+			}
+			otro = otro->getSiguiente();
+		}
+	}
+	Lista(Lista &&l) noexcept
+	    : inicio(l.inicio), len(l.len) {
+		l.inicio = nullptr;
+		l.len = 0;
+	}
+
 	void insertar(T &n, size_t pos = 0) {
 		if (pos == 0) {
 			insertarInicio(n);
