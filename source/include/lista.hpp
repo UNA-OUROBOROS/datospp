@@ -22,6 +22,18 @@ template <typename T> class lista {
 
   public:
 	lista() = default;
+	lista(std::initializer_list<T> l): len(l.size()){
+		nodo *actual = nullptr;
+		for (auto val : l) {
+			if (actual) {
+				actual->setSiguiente(new nodo(val))
+				actual = actual->getSiguiente();
+			} else {
+				inicio = new nodo(val, nullptr);
+				actual = inicio;
+			}
+		}
+	}
 	void insertar(T &n, size_t pos = 0) {
 		if (pos == 0) {
 			insertarInicio(n);
