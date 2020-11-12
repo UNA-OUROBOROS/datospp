@@ -11,7 +11,7 @@ template <typename T> class Vector {
 
   public:
 	Vector() = default;
-	Vector(std::initializer_list<T> l)
+	explicit Vector(std::initializer_list<T> l)
 	    : longitud(l.size()), cantidad(l.size()) {
 
 		arreglo = new T[longitud];
@@ -192,7 +192,7 @@ template <typename T> class Vector {
 
 	  public:
 		iterator() = default;
-		iterator(T &val) {
+		explicit iterator(T &val) {
 			if constexpr (std::is_pointer<T>::value) {
 				this->val = val;
 			} else {
@@ -216,7 +216,7 @@ template <typename T> class Vector {
 
 	  public:
 		const_iterator() = default;
-		const_iterator(const T &val) {
+		explicit const_iterator(const T &val) {
 			if constexpr (std::is_pointer<T>::value) {
 				this->val = val;
 			} else {

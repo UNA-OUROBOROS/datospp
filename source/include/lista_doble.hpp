@@ -35,7 +35,7 @@ template <typename T> class ListaDoble {
 
   public:
 	ListaDoble() = default;
-	ListaDoble(std::initializer_list<T> l) : len(l.size()) {
+	explicit ListaDoble(std::initializer_list<T> l) : len(l.size()) {
 		nodo *actual = nullptr;
 		for (auto val : l) {
 			if (actual) {

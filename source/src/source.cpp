@@ -3,7 +3,7 @@
 using std::cout;
 
 int main(int, char **) {
-	Vector<int> v = {1, 2, 3, 4, 5};
+	Vector<int> v{1, 2, 3, 4, 5};
 	v.emplace_back(6);
 	for (auto &val : v) {
 		cout << val << "\n";
