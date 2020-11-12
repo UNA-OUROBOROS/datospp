@@ -82,32 +82,32 @@ template <typename T> class Heap : private Vector<T> {
 
 	T &operator[](size_t pos) { return Vector<T>::at(pos); }
 
-	Heap &operator=(Heap<T> &&heap) {
+	explicit Heap &operator=(Heap<T> &&heap) {
 		Vector<T>::operator=(heap);
 		heapify();
 	}
-	Heap &operator=(Heap<T> &heap) {
+	explicit Heap &operator=(Heap<T> &heap) {
 		Vector<T>::operator=(heap);
 		heapify();
 	}
-	Heap &operator=(Vector<T> &&v) {
+	explicit Heap &operator=(Vector<T> &&v) {
 		Vector<T>::operator=(v);
 		heapify();
 	}
-	Heap &operator=(Vector<T> &v) {
+	explicit Heap &operator=(Vector<T> &v) {
 		Vector<T>::operator=(v);
 		heapify();
 	}
 
 	Heap &heapify(bool ordenMayor = true) {
 		if (size()) {
-			for (size_t i = size() / 2 - 1; i >= 0; i--) {
+			for (size_t i = size() / 2 - 1; i > 0; i--) {
 				heapify_down(i, ordenMayor);
 				if (i == 0) {
 					break;
 				}
 			}
-			for (size_t i = size() - 1; i >= 0; i--) {
+			for (size_t i = size() - 1; i > 0; i--) {
 				Vector<T>::swap(0, i);
 				heapify_down(0, ordenMayor);
 				if (i == 0) {
