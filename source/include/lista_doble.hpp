@@ -13,7 +13,7 @@ template <typename T> class ListaDoble {
 		nodo *anterior = nullptr;
 
 	  public:
-		nodo(T &valor, nodo *siguiente = nullptr, nodo *anterior = nullptr)
+		explicit nodo(T &valor, nodo *siguiente = nullptr, nodo *anterior = nullptr)
 		    : valor(valor), siguiente(siguiente), anterior(anterior) {}
 		const T &getValor() const { return valor; }
 		T &getValor() { return valor; }
@@ -51,7 +51,7 @@ template <typename T> class ListaDoble {
 		}
 		ultimo = actual;
 	}
-	ListaDoble(const ListaDoble &l) : len(l.len) {
+	explicit ListaDoble(const ListaDoble &l) : len(l.len) {
 		nodo *otro = l.inicio;
 		nodo *actual = inicio;
 		for (size_t pos = 0; pos < l.len; pos++) {
@@ -64,7 +64,7 @@ template <typename T> class ListaDoble {
 		}
 		ultimo = actual;
 	}
-	ListaDoble(ListaDoble &&l) noexcept
+	explicit ListaDoble(ListaDoble &&l) noexcept
 	    : inicio(l.inicio), ultimo(l.ultimo), len(l.len) {
 		l.ultimo = l.inicio = nullptr;
 		l.len = 0;

@@ -3,14 +3,14 @@
 #include <stdexcept>
 #include <tuple>
 
-template <typename T> class lista {
+template <typename T> class Lista {
   private:
 	class nodo {
 		T valor;
 		nodo *siguiente = nullptr;
 
 	  public:
-		nodo(T &valor, nodo *siguiente = nullptr)
+		explicit nodo(T &valor, nodo *siguiente = nullptr)
 		    : valor(valor), siguiente(siguiente) {}
 		const T &getValor() const { return valor; }
 		T &getValor() { return valor; }
@@ -21,8 +21,8 @@ template <typename T> class lista {
 	size_t len = 0;
 
   public:
-	lista() = default;
-	explicit lista(std::initializer_list<T> l): len(l.size()){
+	Lista() = default;
+	explicit Lista(std::initializer_list<T> l): len(l.size()){
 		nodo *actual = nullptr;
 		for (auto val : l) {
 			if (actual) {
@@ -204,5 +204,5 @@ template <typename T> class lista {
 	Iterator begin() { return Iterator(inicio); }
 	Iterator end() { return Iterator(getNodo(len - 1)); }
 
-	~lista() { clear(); }
+	~Lista() { clear(); }
 };
