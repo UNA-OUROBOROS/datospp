@@ -15,13 +15,14 @@ template <typename T> class Vector {
 	    : longitud(l.size()), cantidad(l.size()) {
 
 		arreglo = new T[longitud];
-		size_t i = 0; 
+		size_t i = 0;
 		for (auto val : l) {
 			arreglo[i] = val;
 			i++;
 		}
 	}
-	explicit Vector(const Vector<T> &v) : longitud(v.longitud), cantidad(v.cantidad) {
+	explicit Vector(const Vector<T> &v)
+	    : longitud(v.longitud), cantidad(v.cantidad) {
 		arreglo = new T[longitud];
 		for (size_t i = 0; i < cantidad; i++) {
 			arreglo[i] = v.arreglo[i];
@@ -99,21 +100,17 @@ template <typename T> class Vector {
 	}
 
 	void insert(T &val, size_t pos) {
-		if (pos < cantidad && cantidad == longitud) {
-			reserve();
+		if(pos > cantidad){
+			throw std::out_of_range("posicion fuera de limites");
 		}
-		for (size_t i = cantidad; (i) > pos; i--) {
-			arreglo[i] = std::move(arreglo[i - 1]);
-		}
+		shift(pos);
 		arreglo[pos] = val;
 	}
 	void insert(T &&val, size_t pos) {
-		if (pos < cantidad && cantidad == longitud) {
-			reserve();
+		if(pos > cantidad){
+			throw std::out_of_range("posicion fuera de limites");
 		}
-		for (size_t i = cantidad; (i) > pos; i--) {
-			arreglo[i] = std::move(arreglo[i - 1]);
-		}
+		shift(pos);
 		arreglo[pos] = std::move(val);
 	}
 
@@ -275,6 +272,18 @@ template <typename T> class Vector {
 		return *this;
 	}
 
+  private:
+	//mueve los elementos para insertar un nuevo elemento
+	//tambien redimensiona de ser necesario
+	void shift(size_t pos){
+		if (pos < cantidad && cantidad == longitud) {
+			reserve();
+		}
+		for (size_t i = cantidad; (i) > pos; i--) {
+			arreglo[i] = std::move(arreglo[i - 1]);
+		}
+	}
+    public:
 	~Vector() {
 		if constexpr (std::is_pointer<T>::value) {
 			for (size_t i = 0; i < cantidad; i++) {
