@@ -83,13 +83,14 @@ template <typename T> class ListaDoble {
 		len++;
 	}
 	void push_back(T &n) {
-		if (n == 0 || len == 0) {
-			push_front(n);
-		} else {
+		if (len) {
 			ultimo->setSiguiente(new nodo(n, nullptr, ultimo));
 			ultimo = ultimo->getSiguiente();
 			// getNodo(len - 1)->setSiguiente(new nodo(n));
 			len++;
+		}
+		else {
+			push_front(n);
 		}
 	}
 	bool pop_front() {
