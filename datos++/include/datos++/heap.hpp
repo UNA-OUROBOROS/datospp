@@ -1,5 +1,5 @@
 #pragma once
-#include <vector.hpp>
+#include <datos++/vector.hpp>
 
 template <typename T> class Heap : private Vector<T> {
 	size_t getPadre(size_t pos) { return (pos - 1) / 2; }

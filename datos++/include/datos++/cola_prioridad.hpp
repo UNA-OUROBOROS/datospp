@@ -1,4 +1,4 @@
-#include <lista.hpp>
+#include <datos++/lista.hpp>
 
 template <typename T> class colaPrioridad : public lista<T> {
   private:
