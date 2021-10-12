@@ -83,7 +83,7 @@ template <typename T> class Vector {
 		resize(longitud + len);
 	}
 
-	void push_back(T val) {
+	void push_back(const T& val) {
 		if (cantidad >= longitud) {
 			reserve();
 		}

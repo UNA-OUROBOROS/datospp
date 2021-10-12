@@ -12,7 +12,7 @@ catch2_dep = dependency(
 )
 
 subdir('datos++')
-#subdir('test')
+subdir('test')
 
 pkg_mod = import('pkgconfig')
 pkg_mod.generate(libraries : datospp_dep,
