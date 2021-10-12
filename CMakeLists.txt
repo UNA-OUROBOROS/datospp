@@ -1,4 +1,4 @@
 cmake_minimum_required(VERSION 3.10)
 project(estructuras)
 
-add_subdirectory(source)
+add_subdirectory(datos++)
