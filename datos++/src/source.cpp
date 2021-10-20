@@ -1,6 +1,7 @@
 #include <iostream>
 #include <datos++/vector.hpp>
 using std::cout;
+using datospp::Vector;
 
 int main(int, char **) {
 	Vector<int> v{1, 2, 3, 4, 5};
