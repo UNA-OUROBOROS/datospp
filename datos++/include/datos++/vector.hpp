@@ -4,6 +4,8 @@
 #include <stdexcept>
 #include <type_traits>
 
+namespace datospp {
+
 template <typename T> class Vector {
 	T *arreglo = nullptr;
 	size_t longitud = 0;
@@ -83,7 +85,7 @@ template <typename T> class Vector {
 		resize(longitud + len);
 	}
 
-	void push_back(const T& val) {
+	void push_back(const T &val) {
 		if (cantidad >= longitud) {
 			reserve();
 		}
@@ -100,14 +102,14 @@ template <typename T> class Vector {
 	}
 
 	void insert(T &val, size_t pos) {
-		if(pos > cantidad){
+		if (pos > cantidad) {
 			throw std::out_of_range("posicion fuera de limites");
 		}
 		shift(pos);
 		arreglo[pos] = val;
 	}
 	void insert(T &&val, size_t pos) {
-		if(pos > cantidad){
+		if (pos > cantidad) {
 			throw std::out_of_range("posicion fuera de limites");
 		}
 		shift(pos);
@@ -273,9 +275,9 @@ template <typename T> class Vector {
 	}
 
   private:
-	//mueve los elementos para insertar un nuevo elemento
-	//tambien redimensiona de ser necesario
-	void shift(size_t pos){
+	// mueve los elementos para insertar un nuevo elemento
+	// tambien redimensiona de ser necesario
+	void shift(size_t pos) {
 		if (pos < cantidad && cantidad == longitud) {
 			reserve();
 		}
@@ -283,7 +285,8 @@ template <typename T> class Vector {
 			arreglo[i] = std::move(arreglo[i - 1]);
 		}
 	}
-    public:
+
+  public:
 	~Vector() {
 		if constexpr (std::is_pointer<T>::value) {
 			for (size_t i = 0; i < cantidad; i++) {
@@ -293,3 +296,5 @@ template <typename T> class Vector {
 		delete[] arreglo;
 	}
 };
+
+} // namespace datospp

@@ -5,45 +5,45 @@
 
 template <typename T> class Lista {
   private:
-	class nodo {
+	class Nodo {
 		T valor;
-		nodo *siguiente = nullptr;
+		Nodo *siguiente = nullptr;
 
 	  public:
-		explicit nodo(T &valor, nodo *siguiente = nullptr)
+		explicit Nodo(T &valor, Nodo *siguiente = nullptr)
 		    : valor(valor), siguiente(siguiente) {}
 		const T &getValor() const { return valor; }
 		T &getValor() { return valor; }
-		void setSiguiente(nodo *n) { siguiente = n; }
-		nodo *getSiguiente() const { return siguiente; }
+		void setSiguiente(Nodo *n) { siguiente = n; }
+		Nodo *getSiguiente() const { return siguiente; }
 	};
-	nodo *inicio = nullptr;
+	Nodo *inicio = nullptr;
 	size_t len = 0;
 
   public:
 	Lista() = default;
 	explicit Lista(std::initializer_list<T> l): len(l.size()){
-		nodo *actual = nullptr;
+		Nodo *actual = nullptr;
 		for (auto val : l) {
 			if (actual) {
-				actual->setSiguiente(new nodo(val))
+				actual->setSiguiente(new Nodo(val))
 				actual = actual->getSiguiente();
 			} else {
-				inicio = new nodo(val);
+				inicio = new Nodo(val);
 				actual = inicio;
 			}
 		}
 	}
 	explicit Lista(const Lista &l) : len(l.len) {
-		nodo *otro = l.inicio;
-		nodo *actual = inicio;
+		Nodo *otro = l.inicio;
+		Nodo *actual = inicio;
 		for (size_t pos = 0; pos < l.len; pos++) {
 			if(actual){
-				actual->setSiguiente(new nodo(otro->getValor()));
+				actual->setSiguiente(new Nodo(otro->getValor()));
 				actual = actual->getSiguiente();
 			}
 			else{
-				actual = new nodo(otro->getValor());
+				actual = new Nodo(otro->getValor());
 			}
 			otro = otro->getSiguiente();
 		}
@@ -55,14 +55,14 @@ template <typename T> class Lista {
 	}
 
 	void push_front(T &n) {
-		inicio = new nodo(n, inicio);
+		inicio = new Nodo(n, inicio);
 		len++;
 	}
 	void push_back(T &n) {
 		if (len == 0) {
 			insertarInicio(n);
 		} else {
-			getNodo(len - 1)->setSiguiente(new nodo(n));
+			getNodo(len - 1)->setSiguiente(new Nodo(n));
 			len++;
 		}
 	}
@@ -71,8 +71,8 @@ template <typename T> class Lista {
 		if (pos == 0) {
 			push_front(n);
 		} else if (pos <= len) {
-			nodo *actual = getNodo(pos - 1);
-			actual->setSiguiente(new nodo(n, actual->getSiguiente()));
+			Nodo *actual = getNodo(pos - 1);
+			actual->setSiguiente(new Nodo(n, actual->getSiguiente()));
 			len++;
 		}
 	}
@@ -81,8 +81,8 @@ template <typename T> class Lista {
 			return erase_front();
 		}
 		if (pos < len) {
-			nodo *previo = getNodo(pos - 1);
-			nodo *sig = previo->getSiguiente()->getSiguiente();
+			Nodo *previo = getNodo(pos - 1);
+			Nodo *sig = previo->getSiguiente()->getSiguiente();
 			delete previo->getSiguiente();
 			previo->setSiguiente(sig);
 			len--;
@@ -93,7 +93,7 @@ template <typename T> class Lista {
 
 	bool erase_front() {
 		if (inicio) {
-			nodo *siguiente = inicio->getSiguiente();
+			Nodo *siguiente = inicio->getSiguiente();
 			delete inicio;
 			inicio = siguiente;
 			len--;
@@ -106,7 +106,7 @@ template <typename T> class Lista {
 			if (len == 1) {
 				delete inicio;
 			} else {
-				nodo *n = getNodo(len - 1);
+				Nodo *n = getNodo(len - 1);
 				delete n->getSiguiente();
 				n->setSiguiente(nullptr);
 			}
@@ -117,7 +117,7 @@ template <typename T> class Lista {
 	}
 
 	T &at(size_t pos) const {
-		nodo *n = getNodo(pos);
+		Nodo *n = getNodo(pos);
 		if (n) {
 			return n->getValor();
 		}
@@ -135,7 +135,7 @@ template <typename T> class Lista {
 	const T& operator[](size_t pos) const { return at(pos); }
 
   private:
-	nodo *getNodo(size_t pos) const {
+	Nodo *getNodo(size_t pos) const {
 		// c++ 17, pre c++17 puede declarar uno de los 2 afuera
 		for (auto [n, i] = std::tuple{inicio, 0}; n;
 		     i++, n = n->getSiguiente()) {
@@ -148,10 +148,10 @@ template <typename T> class Lista {
 
   public:
 	class Iterator {
-		nodo *actual = nullptr;
+		Nodo *actual = nullptr;
 
 	  public:
-		Iterator(nodo *n = nullptr) : actual(n) {}
+		Iterator(Nodo *n = nullptr) : actual(n) {}
 
 		T &operator*() { return actual->getValor(); }
 		bool operator!=(Iterator &o) { return this->actual != o.actual; }
@@ -161,32 +161,19 @@ template <typename T> class Lista {
 			return *this;
 		}
 	};
-	class ConstIterator {
-		nodo *actual = nullptr;
 
-	  public:
-		ConstIterator(nodo *n = nullptr) : actual(n) {}
-
-		const T &operator*() { return actual->getValor(); }
-		bool operator!=(ConstIterator &o) { return this->actual != o.actual; }
-
-		ConstIterator &operator++() {
-			actual = actual ? actual->getSiguiente() : actual;
-			return *this;
-		}
-	};
 
 	Lista operator=(const Lista &l) {
 		clear();
 
-		nodo *otro = l.inicio;
-		nodo *actual = inicio;
+		Nodo *otro = l.inicio;
+		Nodo *actual = inicio;
 		for (size_t pos = 0; pos < l.len; pos++) {
 			if (actual) {
-				actual->setSiguiente(new nodo(otro->getValor()));
+				actual->setSiguiente(new Nodo(otro->getValor()));
 				actual = actual->getSiguiente();
 			} else {
-				actual = new nodo(otro->getValor());
+				actual = new Nodo(otro->getValor());
 			}
 			otro = otro->getSiguiente();
 		}
@@ -201,8 +188,10 @@ template <typename T> class Lista {
 		return *this;
 	}
 
-	Iterator begin() { return Iterator(inicio); }
-	Iterator end() { return Iterator(getNodo(len - 1)); }
+	//Iterator begin() { return Iterator(inicio); }
+	//Iterator end() { return Iterator(getNodo(len - 1)); }
+	Nodo begin() { return inicio; }
+	Nodo end() { return getNodo(len - 1); }
 
 	~Lista() { clear(); }
 };
