@@ -145,14 +145,8 @@ template <typename T> class Vector {
 	}
 
 	void clear() {
-		if constexpr (std::is_pointer<T>::value) {
-			for (size_t i = 0; i < cantidad; i++) {
-				delete arreglo[i];
-			}
-		}
-		delete[] arreglo;
+		clearMemory();
 		arreglo = new T[longitud ? longitud : 1];
-		cantidad = 0;
 	}
 
 	T &at(size_t pos) {
@@ -239,14 +233,9 @@ template <typename T> class Vector {
 	}
 
 	Vector &operator=(const Vector<T> &v) {
-		if constexpr (std::is_pointer<T>::value) {
-			for (size_t i = 0; i < cantidad; i++) {
-				delete arreglo[i];
-			}
-		}
+		clearMemory();
 		cantidad = v.cantidad;
 		longitud = v.longitud;
-		delete[] arreglo;
 
 		arreglo = new T[longitud];
 		for (size_t i = 0; i < cantidad; i++) {
@@ -257,14 +246,9 @@ template <typename T> class Vector {
 	}
 
 	Vector &operator=(Vector<T> &&v) noexcept {
-		if constexpr (std::is_pointer<T>::value) {
-			for (size_t i = 0; i < cantidad; i++) {
-				delete arreglo[i];
-			}
-		}
+		clearMemory();
 		cantidad = v.cantidad;
 		longitud = v.longitud;
-		delete[] arreglo;
 
 		arreglo = std::move(v.arreglo);
 		v.cantidad = 0;
@@ -286,14 +270,27 @@ template <typename T> class Vector {
 		}
 	}
 
-  public:
-	~Vector() {
+	void clearMemory() {
 		if constexpr (std::is_pointer<T>::value) {
 			for (size_t i = 0; i < cantidad; i++) {
 				delete arreglo[i];
 			}
 		}
 		delete[] arreglo;
+		cantidad = 0;
+		longitud = 0;
+	}
+
+  public:
+	~Vector() {
+		if constexpr (std::is_pointer<T>::value) {
+			for (size_t i = 0; i < cantidad; i++) {
+				delete arreglo[i];
+				arreglo[i] = nullptr;
+			}
+		}
+		delete[] arreglo;
+		arreglo = nullptr;
 	}
 };
 

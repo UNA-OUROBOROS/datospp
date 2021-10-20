@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <catch2/catch.hpp>
+#include <cstddef>
 #include <datos++/vector.hpp>
 
 using datospp::Vector;
@@ -20,7 +21,7 @@ TEST_CASE("Operaciones Vector primitivos", "[datospp::Vector]") {
 			}
 			SECTION("Sus elementos concuerdan") {
 				for (size_t i = 0; i < vec.size(); i++) {
-					REQUIRE(vec[i] == i + 1);
+					REQUIRE((size_t)vec[i] == i + 1);
 				}
 			}
 			SECTION("Se puede mover un vector") {
@@ -36,7 +37,7 @@ TEST_CASE("Operaciones Vector primitivos", "[datospp::Vector]") {
 				}
 				SECTION("Sus elementos concuerdan") {
 					for (size_t i = 0; i < vec.size(); i++) {
-						REQUIRE(vec[i] == i + 1);
+						REQUIRE((size_t)vec[i] == i + 1);
 					}
 				}
 			}
@@ -54,7 +55,7 @@ TEST_CASE("Operaciones Vector primitivos", "[datospp::Vector]") {
 			}
 			SECTION("Sus elementos concuerdan") {
 				for (size_t i = 0; i < vec.size(); i++) {
-					REQUIRE(vec[i] == i + 1);
+					REQUIRE((size_t)vec[i] == i + 1);
 				}
 			}
 		}
