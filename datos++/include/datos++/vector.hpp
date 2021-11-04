@@ -6,14 +6,14 @@
 
 namespace datospp {
 
-template <typename T> class Vector {
+template <typename T> class vector {
 	T *arreglo = nullptr;
 	size_t longitud = 0;
 	size_t cantidad = 0;
 
   public:
-	Vector() = default;
-	explicit Vector(std::initializer_list<T> l)
+	vector() = default;
+	explicit vector(std::initializer_list<T> l)
 	    : longitud(l.size()), cantidad(l.size()) {
 
 		arreglo = new T[longitud];
@@ -23,14 +23,14 @@ template <typename T> class Vector {
 			i++;
 		}
 	}
-	explicit Vector(const Vector<T> &v)
+	explicit vector(const vector<T> &v)
 	    : longitud(v.longitud), cantidad(v.cantidad) {
 		arreglo = new T[longitud];
 		for (size_t i = 0; i < cantidad; i++) {
 			arreglo[i] = v.arreglo[i];
 		}
 	}
-	explicit Vector(Vector<T> &&v) noexcept
+	explicit vector(vector<T> &&v) noexcept
 	    : arreglo(std::move(v.arreglo)), longitud(v.longitud),
 	      cantidad(v.cantidad) {
 		v.cantidad = 0;
@@ -232,7 +232,7 @@ template <typename T> class Vector {
 		return const_iterator(arreglo[cantidad]);
 	}
 
-	Vector &operator=(const Vector<T> &v) {
+	vector &operator=(const vector<T> &v) {
 		clearMemory();
 		cantidad = v.cantidad;
 		longitud = v.longitud;
@@ -245,7 +245,7 @@ template <typename T> class Vector {
 		return *this;
 	}
 
-	Vector &operator=(Vector<T> &&v) noexcept {
+	vector &operator=(vector<T> &&v) noexcept {
 		clearMemory();
 		cantidad = v.cantidad;
 		longitud = v.longitud;
@@ -282,7 +282,7 @@ template <typename T> class Vector {
 	}
 
   public:
-	~Vector() {
+	~vector() {
 		if constexpr (std::is_pointer<T>::value) {
 			for (size_t i = 0; i < cantidad; i++) {
 				delete arreglo[i];

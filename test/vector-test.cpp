@@ -3,18 +3,18 @@
 #include <cstddef>
 #include <datos++/vector.hpp>
 
-using datospp::Vector;
+using datospp::vector;
 
 TEST_CASE("Operaciones Vector primitivos", "[datospp::Vector]") {
 
 	SECTION("Se puede generar un vector") {
 		SECTION("Vector vacío") {
-			Vector<int> vec;
+			vector<int> vec;
 			REQUIRE(vec.empty());
 			REQUIRE(vec.size() == 0);
 		}
 		SECTION("Se puede generar un vector con lista de inicializacion") {
-			Vector<int> vec{1, 2, 3, 4, 5};
+			vector<int> vec{1, 2, 3, 4, 5};
 			SECTION("no es un vector vacio y su tamaño es el correcto") {
 				REQUIRE(!vec.empty());
 				REQUIRE(vec.size() == 5);
@@ -25,8 +25,8 @@ TEST_CASE("Operaciones Vector primitivos", "[datospp::Vector]") {
 				}
 			}
 			SECTION("Se puede mover un vector") {
-				Vector<int> v1{1, 2, 3, 4, 5};
-				Vector<int> vec{std::move(v1)};
+				vector<int> v1{1, 2, 3, 4, 5};
+				vector<int> vec{std::move(v1)};
 				SECTION("el primer vector queda vacío") {
 					REQUIRE(v1.size() == 0);
 					REQUIRE(v1.empty());
@@ -43,8 +43,8 @@ TEST_CASE("Operaciones Vector primitivos", "[datospp::Vector]") {
 			}
 		}
 		SECTION("Se puede mover un vector") {
-			Vector<int> v1{1, 2, 3, 4, 5};
-			Vector<int> vec{std::move(v1)};
+			vector<int> v1{1, 2, 3, 4, 5};
+			vector<int> vec{std::move(v1)};
 			SECTION("el primer vector queda vacío") {
 				REQUIRE(v1.size() == 0);
 				REQUIRE(v1.empty());
@@ -59,9 +59,22 @@ TEST_CASE("Operaciones Vector primitivos", "[datospp::Vector]") {
 				}
 			}
 		}
+		SECTION("se puede copiar un vector"){
+			vector<int> v1{1, 2, 3, 4, 5};
+			vector<int> vec{v1};
+			SECTION("no es un vector vacio y su tamaño es el correcto") {
+				REQUIRE(!vec.empty());
+				REQUIRE(vec.size() == 5);
+			}
+			SECTION("Sus elementos concuerdan") {
+				for (size_t i = 0; i < vec.size(); i++) {
+					REQUIRE((size_t)vec[i] == i + 1);
+				}
+			}
+		}
 	}
 	SECTION("agregar elementos a un vector") {
-		Vector<int> vec;
+		vector<int> vec;
 		SECTION("Se puede insertar un elemento al vector") {
 			size_t size = vec.size();
 			vec.push_back(2);
@@ -105,7 +118,7 @@ TEST_CASE("Operaciones Vector primitivos", "[datospp::Vector]") {
 
 	SECTION("Se pueden remover elementos a un vector") {
 		SECTION("Se puede eliminar un elemento del vector vector") {
-			Vector<int> vec;
+			vector<int> vec;
 			vec.push_back(2);
 			size_t size = vec.size();
 			vec.pop_back();
@@ -116,7 +129,7 @@ TEST_CASE("Operaciones Vector primitivos", "[datospp::Vector]") {
 			}
 		}
 		SECTION("Se puede vaciar un vector") {
-			Vector<int> vec{1, 2, 3, 4, 5};
+			vector<int> vec{1, 2, 3, 4, 5};
 			vec.clear();
 			SECTION("Reporta la longitud correcta") {
 				REQUIRE(vec.empty());
