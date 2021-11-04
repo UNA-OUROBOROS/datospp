@@ -14,6 +14,8 @@ template <typename T> class LinkedList {
 	  public:
 		explicit Nodo(T &valor, Nodo *siguiente = nullptr)
 		    : valor(valor), siguiente(siguiente) {}
+		explicit Nodo(T &&valor, Nodo *siguiente = nullptr)
+		    : valor(std::move(valor)), siguiente(siguiente) {}
 		const T &getValor() const { return valor; }
 		T &getValor() { return valor; }
 		void setSiguiente(Nodo *n) { siguiente = n; }
@@ -45,12 +47,13 @@ template <typename T> class LinkedList {
 				actual = actual->getSiguiente();
 			} else {
 				actual = new Nodo(otro->getValor());
+				inicio = actual;
 			}
 			otro = otro->getSiguiente();
 		}
 	}
 	explicit LinkedList(LinkedList &&l) noexcept
-	    : inicio(l.inicio), len(l.len) {
+	    : inicio(std::move(l.inicio)), len(l.len) {
 		l.inicio = nullptr;
 		l.len = 0;
 	}
@@ -101,14 +104,14 @@ template <typename T> class LinkedList {
 	void push_front(T &&val) {
 		inicio = new Nodo(std::move(val), inicio);
 		len++;
-		if (std::is_pointer<T>::value) {
+		if constexpr (std::is_pointer<T>::value) {
 			delete val;
 			val = nullptr;
 		}
 	}
 	void push_back(T &n) {
 		if (len == 0) {
-			insertarInicio(n);
+			push_front(n);
 		} else {
 			getNodo(len - 1)->setSiguiente(new Nodo(n));
 			len++;
@@ -116,7 +119,7 @@ template <typename T> class LinkedList {
 	}
 	void push_back(T &&val) {
 		if (len == 0) {
-			insertarInicio(val);
+			push_front(std::move(val));
 		} else {
 			getNodo(len - 1)->setSiguiente(new Nodo(std::move(val)));
 			len++;
@@ -154,7 +157,7 @@ template <typename T> class LinkedList {
 	}
 	bool erase(size_t pos = 0) {
 		if (pos == 0) {
-			return erase_front();
+			return pop_front();
 		}
 		if (pos < len) {
 			Nodo *previo = getNodo(pos - 1);
@@ -200,10 +203,10 @@ template <typename T> class LinkedList {
 		throw std::out_of_range("posicion fuera de los limites");
 	}
 	size_t size() const { return len; }
-	bool empty() const { return len; }
+	bool empty() const { return len == 0; }
 	void clear() {
 		while (len) {
-			eliminarInicio();
+			pop_front();
 		}
 	}
 

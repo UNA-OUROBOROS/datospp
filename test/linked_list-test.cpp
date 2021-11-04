@@ -1,6 +1,5 @@
 #include <catch2/catch.hpp>
 #include <datos++/linked_list.hpp>
-#include <vcruntime.h>
 
 using datospp::LinkedList;
 
@@ -26,8 +25,7 @@ TEST_CASE("Operaciones Lista Enlazada primitivos", "[datospp::LinkedList") {
 				}
 			}
 			SECTION("Se puede mover una lista a otra lista") {
-				LinkedList<int> lista2;
-				lista2 = lista;
+				LinkedList<int> lista2{std::move(lista)};
 				SECTION("la primera lista esta vacía") {
 					REQUIRE(lista.size() == 0);
 					REQUIRE(lista.empty());
@@ -37,7 +35,7 @@ TEST_CASE("Operaciones Lista Enlazada primitivos", "[datospp::LinkedList") {
 					REQUIRE(lista2.size() == 5);
 				}
 				SECTION("Sus elementos concuerdan") {
-					for (size_t i = 0; i < lista.size(); i++) {
+					for (size_t i = 0; i < lista2.size(); i++) {
 						REQUIRE(lista2[i] == i + 1);
 					}
 				}
@@ -118,20 +116,21 @@ TEST_CASE("Operaciones Lista Enlazada primitivos", "[datospp::LinkedList") {
                     REQUIRE(newSize == size - 1);
                 }
                 SECTION("Puede acceder a los elementos") {
-                    REQUIRE(lista.at(newSize - 1) == 2);
-                    REQUIRE(lista[newSize - 1] == 2);
+                    REQUIRE(lista.at(0) == 2);
+                    REQUIRE(lista[0] == 2);
                 }
             }
             SECTION("se pueden eliminar elementos de una posicion"){
-                lista.erase(2);
+                LinkedList<int> lista{1, 2, 3, 4, 5};
+				lista.erase(4 - 1);
                 size_t newSize = lista.size();
                 SECTION("reporta la longitud correcta") {
                     REQUIRE(!lista.empty());
                     REQUIRE(newSize == size - 1);
                 }
                 SECTION("Puede acceder a los elementos") {
-                    REQUIRE(lista.at(newSize - 1) == 4);
-                    REQUIRE(lista[newSize - 1] == 4);
+                    REQUIRE(lista.at(4 - 2) == 3);
+                    REQUIRE(lista[4 - 2] == 3);
                 }
             }
             SECTION("se puede vaciar una lista"){

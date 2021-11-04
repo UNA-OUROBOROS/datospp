@@ -1,6 +1,7 @@
 test_sources = [
     'source.cpp',
-    'vector-test.cpp'
+    'vector-test.cpp',
+    'linked_list-test.cpp'
 ]
 
 test_dependencies = [
