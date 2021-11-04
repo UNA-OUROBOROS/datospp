@@ -42,23 +42,6 @@ TEST_CASE("Operaciones Vector primitivos", "[datospp::Vector]") {
 				}
 			}
 		}
-		SECTION("Se puede mover un vector") {
-			vector<int> v1{1, 2, 3, 4, 5};
-			vector<int> vec{std::move(v1)};
-			SECTION("el primer vector queda vacío") {
-				REQUIRE(v1.size() == 0);
-				REQUIRE(v1.empty());
-			}
-			SECTION("no es un vector vacio y su tamaño es el correcto") {
-				REQUIRE(!vec.empty());
-				REQUIRE(vec.size() == 5);
-			}
-			SECTION("Sus elementos concuerdan") {
-				for (size_t i = 0; i < vec.size(); i++) {
-					REQUIRE((size_t)vec[i] == i + 1);
-				}
-			}
-		}
 		SECTION("se puede copiar un vector"){
 			vector<int> v1{1, 2, 3, 4, 5};
 			vector<int> vec{v1};
