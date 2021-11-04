@@ -2,8 +2,10 @@
 #include <cstddef>
 #include <stdexcept>
 #include <tuple>
+#include <type_traits>
 
-template <typename T> class Lista {
+namespace datospp {
+template <typename T> class LinkedList {
   private:
 	class Nodo {
 		T valor;
@@ -21,12 +23,12 @@ template <typename T> class Lista {
 	size_t len = 0;
 
   public:
-	Lista() = default;
-	explicit Lista(std::initializer_list<T> l): len(l.size()){
+	LinkedList() = default;
+	explicit LinkedList(std::initializer_list<T> l) : len(l.size()) {
 		Nodo *actual = nullptr;
 		for (auto val : l) {
 			if (actual) {
-				actual->setSiguiente(new Nodo(val))
+				actual->setSiguiente(new Nodo(val));
 				actual = actual->getSiguiente();
 			} else {
 				inicio = new Nodo(val);
@@ -34,35 +36,109 @@ template <typename T> class Lista {
 			}
 		}
 	}
-	explicit Lista(const Lista &l) : len(l.len) {
+	explicit LinkedList(const LinkedList &l) : len(l.len) {
 		Nodo *otro = l.inicio;
 		Nodo *actual = inicio;
 		for (size_t pos = 0; pos < l.len; pos++) {
-			if(actual){
+			if (actual) {
 				actual->setSiguiente(new Nodo(otro->getValor()));
 				actual = actual->getSiguiente();
-			}
-			else{
+			} else {
 				actual = new Nodo(otro->getValor());
 			}
 			otro = otro->getSiguiente();
 		}
 	}
-	explicit Lista(Lista &&l) noexcept
+	explicit LinkedList(LinkedList &&l) noexcept
 	    : inicio(l.inicio), len(l.len) {
 		l.inicio = nullptr;
 		l.len = 0;
 	}
 
-	void push_front(T &n) {
-		inicio = new Nodo(n, inicio);
+	// front
+	T &front() {
+		if (inicio) {
+			return inicio->getValor();
+		} else {
+			throw std::out_of_range("La lista está vacía");
+		}
+	}
+	const T &front() const {
+		if (inicio) {
+			return inicio->getValor();
+		} else {
+			throw std::out_of_range("La lista está vacía");
+		}
+	}
+	// back
+	T &back() {
+		if (inicio) {
+			Nodo *actual = inicio;
+			while (actual->getSiguiente()) {
+				actual = actual->getSiguiente();
+			}
+			return actual->getValor();
+		} else {
+			throw std::out_of_range("La lista está vacía");
+		}
+	}
+	const T &back() const {
+		if (inicio) {
+			Nodo *actual = inicio;
+			while (actual->getSiguiente()) {
+				actual = actual->getSiguiente();
+			}
+			return actual->getValor();
+		} else {
+			throw std::out_of_range("La lista está vacía");
+		}
+	}
+
+	void push_front(T &val) {
+		inicio = new Nodo(val, inicio);
 		len++;
+	}
+	void push_front(T &&val) {
+		inicio = new Nodo(std::move(val), inicio);
+		len++;
+		if (std::is_pointer<T>::value) {
+			delete val;
+			val = nullptr;
+		}
 	}
 	void push_back(T &n) {
 		if (len == 0) {
 			insertarInicio(n);
 		} else {
 			getNodo(len - 1)->setSiguiente(new Nodo(n));
+			len++;
+		}
+	}
+	void push_back(T &&val) {
+		if (len == 0) {
+			insertarInicio(val);
+		} else {
+			getNodo(len - 1)->setSiguiente(new Nodo(std::move(val)));
+			len++;
+		}
+		if constexpr (std::is_pointer<T>::value) {
+			delete val;
+			val = nullptr;
+		}
+	}
+
+	// emplace
+	template <typename... Args> void emplace_front(Args &&...argumentos) {
+		inicio = new Nodo(T(std::forward<Args>(argumentos)...), inicio);
+		len++;
+	}
+	// emplace back
+	template <typename... Args> void emplace_back(Args &&...argumentos) {
+		if (len == 0) {
+			emplace_front(std::forward<Args>(argumentos)...);
+		} else {
+			getNodo(len - 1)->setSiguiente(
+			    new Nodo(T(std::forward<Args>(argumentos)...)));
 			len++;
 		}
 	}
@@ -91,7 +167,7 @@ template <typename T> class Lista {
 		return false;
 	}
 
-	bool erase_front() {
+	bool pop_front() {
 		if (inicio) {
 			Nodo *siguiente = inicio->getSiguiente();
 			delete inicio;
@@ -101,7 +177,7 @@ template <typename T> class Lista {
 		}
 		return false;
 	}
-	bool erase_back() {
+	bool pop_back() {
 		if (len != 0) {
 			if (len == 1) {
 				delete inicio;
@@ -132,7 +208,6 @@ template <typename T> class Lista {
 	}
 
 	T &operator[](size_t pos) const { return at(pos); }
-	const T& operator[](size_t pos) const { return at(pos); }
 
   private:
 	Nodo *getNodo(size_t pos) const {
@@ -162,8 +237,7 @@ template <typename T> class Lista {
 		}
 	};
 
-
-	Lista operator=(const Lista &l) {
+	LinkedList operator=(const LinkedList &l) {
 		clear();
 
 		Nodo *otro = l.inicio;
@@ -179,7 +253,7 @@ template <typename T> class Lista {
 		}
 		return *this;
 	}
-	Lista operator=(Lista &&l) noexcept {
+	LinkedList operator=(LinkedList &&l) noexcept {
 		clear();
 		inicio = l.inicio;
 		len = l.len;
@@ -188,10 +262,12 @@ template <typename T> class Lista {
 		return *this;
 	}
 
-	//Iterator begin() { return Iterator(inicio); }
-	//Iterator end() { return Iterator(getNodo(len - 1)); }
+	// Iterator begin() { return Iterator(inicio); }
+	// Iterator end() { return Iterator(getNodo(len - 1)); }
 	Nodo begin() { return inicio; }
 	Nodo end() { return getNodo(len - 1); }
 
-	~Lista() { clear(); }
+	~LinkedList() { clear(); }
 };
+
+} // namespace datospp
