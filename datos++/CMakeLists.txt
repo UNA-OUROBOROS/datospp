@@ -4,11 +4,9 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(src_include
-    include/datos++/lista.hpp
+    include/datos++/linked_list.hpp
     include/datos++/lista_doble.hpp
-    include/datos++/cola_prioridad.hpp
     include/datos++/vector.hpp
-    include/datos++/heap.hpp
 )
 
 set(src
