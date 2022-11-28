@@ -9,6 +9,12 @@ test_dependencies = [
     datospp_dep
 ]
 
+if extras_support
+    subdir('extras')
+    test_sources += datospp_test_extras_srcs
+endif
+
+
 testexe = executable('testexe', test_sources,
                      include_directories : datospp_inc,
                      #link_with : datospp_lib,

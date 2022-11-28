@@ -1,4 +1,5 @@
 #pragma once
+#include <datos++/private/exportAPI.hpp>
 #include <cstdint>
 #include <datos++/vector.hpp>
 #include <string_view>
@@ -9,38 +10,39 @@ class BigInt {
 	vector<std::int32_t> v;
 
   public:
-	BigInt() = default;
-	explicit BigInt(const BigInt &b) = default;
-	explicit BigInt(BigInt &&b) noexcept = default;
-	BigInt(const std::string_view &s);
-	BigInt(const std::int32_t i);
+	datosppAPI BigInt() = default;
+	datosppAPI explicit BigInt(const BigInt &b) = default;
+	datosppAPI explicit BigInt(BigInt &&b) noexcept = default;
+	datosppAPI BigInt(const std::string_view &s);
+	datosppAPI BigInt(const std::int32_t i);
 
-	BigInt &operator=(const BigInt &b) = default;
-	BigInt &operator=(BigInt &&b) noexcept = default;
-	BigInt &operator=(const std::string_view &s);
-	BigInt &operator=(const std::int32_t i);
+	datosppAPI BigInt &operator=(const BigInt &b) = default;
+	datosppAPI BigInt &operator=(BigInt &&b) noexcept = default;
+	datosppAPI BigInt &operator=(const std::string_view &s);
+	datosppAPI BigInt &operator=(const std::int32_t i);
 
-	BigInt operator+(const BigInt &b) const;
-	BigInt operator-(const BigInt &b) const;
-	BigInt operator*(const BigInt &b) const;
-	BigInt operator/(const BigInt &b) const;
+	datosppAPI BigInt operator+(const BigInt &b) const;
+	datosppAPI BigInt operator-(const BigInt &b) const;
+	datosppAPI BigInt operator*(const BigInt &b) const;
+	datosppAPI BigInt operator/(const BigInt &b) const;
 
-	BigInt &operator+=(const BigInt &b);
-	BigInt &operator-=(const BigInt &b);
-	BigInt &operator*=(const BigInt &b);
-	BigInt &operator/=(const BigInt &b);
+	datosppAPI BigInt &operator+=(const BigInt &b);
+	datosppAPI BigInt &operator-=(const BigInt &b);
+	datosppAPI BigInt &operator*=(const BigInt &b);
+	datosppAPI BigInt &operator/=(const BigInt &b);
 
-	bool operator==(const BigInt &b) const;
-	bool operator!=(const BigInt &b) const;
-	bool operator<(const BigInt &b) const;
-	bool operator<=(const BigInt &b) const;
-	bool operator>(const BigInt &b) const;
-	bool operator>=(const BigInt &b) const;
+	datosppAPI bool operator==(const BigInt &b) const;
+	datosppAPI bool operator!=(const BigInt &b) const;
+	datosppAPI bool operator<(const BigInt &b) const;
+	datosppAPI bool operator<=(const BigInt &b) const;
+	datosppAPI bool operator>(const BigInt &b) const;
+	datosppAPI bool operator>=(const BigInt &b) const;
 
-	explicit operator std::string() const;
+	datosppAPI explicit operator std::string() const;
 
+	datosppAPI ~BigInt() = default;
   private:
-	bool isNegative();
+	datosppAPI bool isNegative();
 };
 namespace user_literals {
 BigInt operator"" _BigInt(const char *, size_t);

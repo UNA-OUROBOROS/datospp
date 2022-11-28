@@ -11,6 +11,8 @@ catch2_dep = dependency(
                 fallback: ['catch2', 'catch2_dep']
 )
 
+extras_support = get_option('extras_support')
+
 subdir('datos++')
 subdir('test')
 
