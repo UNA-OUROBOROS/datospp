@@ -6,7 +6,6 @@ out/
 .vscode/
 #ignorar visual studio
 .vs/
-CMakeSettings.json
 #ignorar archivos de clangd
 .clangd/
 .cache/
