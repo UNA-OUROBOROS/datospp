@@ -4,15 +4,23 @@ datospp_sources = []
 datospp_args = []
 datospp_link = []
 datospp_deps = []
+datospp_incl = [datospp_inc]
 
-# no es necesario ya que solo tenemos cabeceras
-#datospp_lib = shared_library('datospp',
-#                        datospp_sources,
-#                        include_directories : datospp_inc,
-#                        cpp_args: datospp_args,
-#                        dependencies : datos_deps)
+extras_support = get_option('extras')
 
-datospp_dep = declare_dependency(
-    #link_with: datospp_lib,
-    include_directories: datospp_inc
-)
+if extras_support
+    subdir('extras')
+    datospp_lib = shared_library('datospp',
+                            datospp_sources,
+                            include_directories : datospp_incl,
+                            cpp_args: datospp_args,
+                            dependencies : datos_deps)
+    datos_dep = declare_dependency(link_with : datospp_lib,
+                            include_directories : datospp_incl,
+                            dependencies : datospp_deps)
+else
+    datospp_dep = declare_dependency(
+        include_directories: datospp_inc
+    )
+endif
+
