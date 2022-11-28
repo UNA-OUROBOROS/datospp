@@ -3,6 +3,7 @@
 #include <initializer_list>
 #include <stdexcept>
 #include <type_traits>
+#include <vcruntime.h>
 
 namespace datospp {
 
@@ -143,6 +144,11 @@ template <typename T> class vector {
 		}
 		cantidad--;
 	}
+	// erase from iterator
+	void erase(iterator &it) {
+		size_t pos = it - begin();
+		erase(pos);
+	}
 
 	void clear() {
 		clearMemory();
@@ -179,6 +185,20 @@ template <typename T> class vector {
 
 	size_t size() const { return cantidad; }
 	bool empty() const { return cantidad == 0; }
+	T &front() const {
+		// TODO: write unit test
+		if (cantidad) {
+			return arreglo[0];
+		}
+		throw std::out_of_range("vector vacio");
+	}
+	T &back() const {
+		// TODO: write unit test
+		if (cantidad) {
+			return arreglo[cantidad - 1];
+		}
+		throw std::out_of_range("vector vacio");
+	}
 
 	class iterator {
 		T *val = nullptr;
@@ -194,11 +214,32 @@ template <typename T> class vector {
 		}
 		T &operator*() { return *val; }
 		bool operator!=(iterator &o) { return this->val != o.val; }
+
+		iterator &operator+(size_t pos) {
+			// TODO: make safe for pointers
+			if constexpr (std::is_pointer<T>::value) {
+				return iterator(val + pos);
+			} else {
+				return iterator(val[pos]);
+			}
+		}
+
+		iterator &operator-(size_t pos) {
+			// TODO: make safe for pointers
+			if constexpr (std::is_pointer<T>::value) {
+				return iterator(val - pos);
+			} else {
+				return iterator(val[-pos]);
+			}
+		}
+
 		iterator &operator++() {
+			// TODO: write unit test
 			++val;
 			return *this;
 		}
 		iterator &operator--() {
+			// TODO: write unit test
 			--val;
 			return *this;
 		}
