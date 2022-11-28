@@ -144,11 +144,6 @@ template <typename T> class vector {
 		}
 		cantidad--;
 	}
-	// erase from iterator
-	void erase(iterator &it) {
-		size_t pos = it - begin();
-		erase(pos);
-	}
 
 	void clear() {
 		clearMemory();
